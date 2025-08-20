@@ -1,5 +1,5 @@
 import { Client } from "pg";
-import 'dotenv/config';
+import "dotenv/config";
 
 const client = new Client(process.env.DB_CONNECTION);
 
