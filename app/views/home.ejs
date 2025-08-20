@@ -4,47 +4,26 @@
     <div>
         <h1>Votre spécialiste Haucloquois du café</h1>
         <p>oCoffee est un détaillant de café et de produits associés à la consommation du café basé dans la ville de Hauts-de-Cloques. Nous importons nos produits directement des producteurs, et nous les sélectionnons selon des critères exigeants de qualité. oCoffee est reconnu à l’échelle départementale.</p>
-        <a class="button" href="#">Découvrir notre catalogue</a>
+        <a class="button" href="/coffees">Découvrir notre catalogue</a>
     </div>
     <img src="../images/about.jpg" alt="Selection de nos meilleurs cafés oCoffee">
   </section>
 
   <section id="latest-products">
-    <h2>Nouveautés</h2>
-    
+    <h2>Nouveautés</h2> 
     <ul>
+      <% for (const coffee of coffees) { %>
       <li>
         <article>
-          <img src="../images/coffees/100955890.png" alt="Ethiopian Yirgacheffe">
+          <img src="../images/coffees/<%= coffee.reference %>.png" alt="<%= coffee.name %>">
           <div>
-            <h3>Ethiopian Yirgacheffe</h3>
-            <a class="button-outline" href="#">Voir le détail</a>
+            <h3><%= coffee.name %></h3>
+            <a class="button-outline" href="/coffees/<%= coffee.reference %>">Voir le détail</a>
           </div>
         </article>
       </li>
-
-      <li>
-        <article>
-          <img src="../images/coffees/100955890.png" alt="Ethiopian Yirgacheffe">
-          <div>
-            <h3>Ethiopian Yirgacheffe</h3>
-            <a class="button-outline" href="#">Voir le détail</a>
-          </div>
-        </article>
-      </li>
-
-      <li>
-        <article>
-          <img src="../images/coffees/100955890.png" alt="Ethiopian Yirgacheffe">
-          <div>
-            <h3>Ethiopian Yirgacheffe</h3>
-            <a class="button-outline" href="#">Voir le détail</a>
-          </div>
-        </article>
-      </li>
-
+      <% } %>
     </ul>
   </section>
-
 </main>
 <%- include('partials/footer.ejs') %>

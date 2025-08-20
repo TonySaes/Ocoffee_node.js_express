@@ -14,7 +14,7 @@ app.use(express.urlencoded({extended:true}));
 app.use('/', homeRouter);
 
 app.use((req, res) => {
-res.status(404).render('404', { message: 'Page non trouvée', title: 'Erreur 404' });
+res.status(404).render('404', { message: 'Page non trouvée', title: 'Erreur 404', cssFile: 'home.css' });
 });
 
 app.listen(port, () => {
