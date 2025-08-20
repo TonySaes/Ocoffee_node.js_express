@@ -1,0 +1,31 @@
+{
+  "name": "sb04-projet-ocoffee-tonysaes",
+  "version": "1.0.0",
+  "description": "## Information du projet",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/O-clock-Cambridge/SB04-projet-ocoffee-TonySaes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/O-clock-Cambridge/SB04-projet-ocoffee-TonySaes/issues"
+  },
+  "homepage": "https://github.com/O-clock-Cambridge/SB04-projet-ocoffee-TonySaes#readme",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  }
+}
