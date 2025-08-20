@@ -8,8 +8,7 @@
 | --- | --- | --- | --- |
 | 1 | Concepteur | Etablir une charte graphique | Correspondre à l'identité visuelle attendue |
 | 2 | Concepteur | faire une maquette | voir si le rendu correspond bien à ce que veux le client |
-| 3 | Visiteur | une page d'accueil | présenter 
-les infos principales et résumées |
+| 3 | Visiteur | une page d'accueil | présenter les infos principales et résumées |
 | 4 | Visiteur | un menu de navigation | de naviguer facilement sur le site |
 | 5 | Visiteur | un catalogue | de découvrir les produits disponibles |
 | 6 | Visiteur | le détail de chaque produit | enrichir les connaissances sur chaque produit de manière lisible |
