@@ -10,7 +10,7 @@ export default {
     },
 
     detail: async (req, res, next) => {
-        const coffee = await coffeeModels.getCoffeeByReference(req.params.reference);
+        const coffee = await coffeeModels.getCoffeeById(req.params.id);
         if (!coffee) {
             return next();
         }

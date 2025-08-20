@@ -15,7 +15,8 @@ CREATE TABLE taste (
 );
 
 CREATE TABLE coffee (
-  reference    INTEGER PRIMARY KEY,
+  coffee_id    SERIAL PRIMARY KEY,
+  reference    INTEGER NOT NULL UNIQUE,
   name         VARCHAR(100) NOT NULL,
   description  TEXT,
   price        NUMERIC(10,2) CHECK (price >= 0),
@@ -28,13 +29,13 @@ CREATE TABLE coffee (
 -- 1,N côté COFFEE → chaque coffee doit avoir >= 1 taste
 -- 0,N côté TASTE  → un taste peut n’être lié à aucun coffee
 CREATE TABLE belong (
-  reference  INTEGER NOT NULL REFERENCES coffee(reference)
+  coffee_id  INTEGER NOT NULL REFERENCES coffee(coffee_id)
               ON UPDATE CASCADE
               ON DELETE CASCADE,
   taste_id   INTEGER NOT NULL REFERENCES taste(taste_id)
               ON UPDATE CASCADE
               ON DELETE RESTRICT,
-  PRIMARY KEY (reference, taste_id)
+  PRIMARY KEY (coffee_id, taste_id)
 );
 
 -- ========= COUNTRY =========
@@ -103,74 +104,74 @@ INSERT INTO coffee (reference, name, description, price, available, country_id) 
 
 -- ========= BELONG (tastes par coffee) =========
 -- Espresso (Corsé, Épicé)
-INSERT INTO belong (reference, taste_id) VALUES
-  (100955890, (SELECT taste_id FROM taste WHERE type = 'Corsé')),
-  (100955890, (SELECT taste_id FROM taste WHERE type = 'Épicé'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 100955890), (SELECT taste_id FROM taste WHERE type = 'Corsé')),
+  ((SELECT coffee_id FROM coffee WHERE reference = 100955890), (SELECT taste_id FROM taste WHERE type = 'Épicé'));
 
 -- Columbian (Acide)
-INSERT INTO belong (reference, taste_id) VALUES
-  (100955894, (SELECT taste_id FROM taste WHERE type = 'Acide'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 100955894), (SELECT taste_id FROM taste WHERE type = 'Acide'));
 
 -- Ethiopian Yirgacheffe (Doux, Fruité)
-INSERT INTO belong (reference, taste_id) VALUES
-  (105589090, (SELECT taste_id FROM taste WHERE type = 'Doux')),
-  (105589090, (SELECT taste_id FROM taste WHERE type = 'Fruité'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 105589090), (SELECT taste_id FROM taste WHERE type = 'Doux')),
+  ((SELECT coffee_id FROM coffee WHERE reference = 105589090), (SELECT taste_id FROM taste WHERE type = 'Fruité'));
 
 -- Brazilian Santos (Doux)
-INSERT INTO belong (reference, taste_id) VALUES
-  (134009550, (SELECT taste_id FROM taste WHERE type = 'Doux'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 134009550), (SELECT taste_id FROM taste WHERE type = 'Doux'));
 
 -- Guatemalan Antigua (Corsé)
-INSERT INTO belong (reference, taste_id) VALUES
-  (256505890, (SELECT taste_id FROM taste WHERE type = 'Corsé'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 256505890), (SELECT taste_id FROM taste WHERE type = 'Corsé'));
 
 -- Kenyan AA (Doux, Acide)
-INSERT INTO belong (reference, taste_id) VALUES
-  (295432730, (SELECT taste_id FROM taste WHERE type = 'Doux')),
-  (295432730, (SELECT taste_id FROM taste WHERE type = 'Acide'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 295432730), (SELECT taste_id FROM taste WHERE type = 'Doux')),
+  ((SELECT coffee_id FROM coffee WHERE reference = 295432730), (SELECT taste_id FROM taste WHERE type = 'Acide'));
 
 -- Sumatra Mandheling (Corsé)
-INSERT INTO belong (reference, taste_id) VALUES
-  (302932754, (SELECT taste_id FROM taste WHERE type = 'Corsé'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 302932754), (SELECT taste_id FROM taste WHERE type = 'Corsé'));
 
 -- Costa Rican Tarrazu (Acide)
-INSERT INTO belong (reference, taste_id) VALUES
-  (327302954, (SELECT taste_id FROM taste WHERE type = 'Acide'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 327302954), (SELECT taste_id FROM taste WHERE type = 'Acide'));
 
 -- Vietnamese Robusta (Épicé)
-INSERT INTO belong (reference, taste_id) VALUES
-  (549549090, (SELECT taste_id FROM taste WHERE type = 'Épicé'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 549549090), (SELECT taste_id FROM taste WHERE type = 'Épicé'));
 
 -- Tanzanian Peaberry (Fruité, Corsé)
-INSERT INTO belong (reference, taste_id) VALUES
-  (582954954, (SELECT taste_id FROM taste WHERE type = 'Fruité')),
-  (582954954, (SELECT taste_id FROM taste WHERE type = 'Corsé'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 582954954), (SELECT taste_id FROM taste WHERE type = 'Fruité')),
+  ((SELECT coffee_id FROM coffee WHERE reference = 582954954), (SELECT taste_id FROM taste WHERE type = 'Corsé'));
 
 -- Jamaican Blue Mountain (Doux)
-INSERT INTO belong (reference, taste_id) VALUES
-  (589100954, (SELECT taste_id FROM taste WHERE type = 'Doux'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 589100954), (SELECT taste_id FROM taste WHERE type = 'Doux'));
 
 -- Rwandan Bourbon (Fruité)
-INSERT INTO belong (reference, taste_id) VALUES
-  (650753915, (SELECT taste_id FROM taste WHERE type = 'Fruité'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 650753915), (SELECT taste_id FROM taste WHERE type = 'Fruité'));
 
 -- Panamanian Geisha (Fruité)
-INSERT INTO belong (reference, taste_id) VALUES
-  (795501340, (SELECT taste_id FROM taste WHERE type = 'Fruité'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 795501340), (SELECT taste_id FROM taste WHERE type = 'Fruité'));
 
 -- Peruvian Arabica (Corsé, Chocolaté)
-INSERT INTO belong (reference, taste_id) VALUES
-  (954589100, (SELECT taste_id FROM taste WHERE type = 'Corsé')),
-  (954589100, (SELECT taste_id FROM taste WHERE type = 'Chocolaté'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 954589100), (SELECT taste_id FROM taste WHERE type = 'Corsé')),
+  ((SELECT coffee_id FROM coffee WHERE reference = 954589100), (SELECT taste_id FROM taste WHERE type = 'Chocolaté'));
 
 -- Hawaiian Kona (Doux)
-INSERT INTO belong (reference, taste_id) VALUES
-  (958090105, (SELECT taste_id FROM taste WHERE type = 'Doux'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 958090105), (SELECT taste_id FROM taste WHERE type = 'Doux'));
 
 -- Nicaraguan Maragogipe (Corsé, Fruité)
-INSERT INTO belong (reference, taste_id) VALUES
-  (691550753, (SELECT taste_id FROM taste WHERE type = 'Corsé')),
-  (691550753, (SELECT taste_id FROM taste WHERE type = 'Fruité'));
+INSERT INTO belong (coffee_id, taste_id) VALUES
+  ((SELECT coffee_id FROM coffee WHERE reference = 691550753), (SELECT taste_id FROM taste WHERE type = 'Corsé')),
+  ((SELECT coffee_id FROM coffee WHERE reference = 691550753), (SELECT taste_id FROM taste WHERE type = 'Fruité'));
 
 
 

@@ -3,7 +3,7 @@ import client from "./db.js";
 export default {
     async getCoffees() {
         try {
-            const res = await client.query('SELECT coffee.reference, coffee.name, coffee.price, country.name as country_name FROM coffee JOIN country ON country.country_id = coffee.country_id ORDER BY coffee.name');
+            const res = await client.query('SELECT coffee.coffee_id, coffee.reference, coffee.name, coffee.price, country.name as country_name FROM coffee JOIN country ON country.country_id = coffee.country_id ORDER BY coffee.name');
             return res.rows;
         } catch (error) {
             console.error('Erreur lors de la récupération des cafés :', error.message);
@@ -11,9 +11,9 @@ export default {
         }
     },
 
-    async getCoffeeByReference(reference) {
+    async getCoffeeById(id) {
         try {
-            const res = await client.query("SELECT coffee.reference, coffee.name, coffee.price, country.name AS country_name, coffee.description, STRING_AGG(taste.type, ', ' ORDER BY taste.type) AS coffee_type FROM coffee JOIN country ON country.country_id = coffee.country_id join belong ON belong.reference = coffee.reference join taste ON taste.taste_id = belong.taste_id WHERE coffee.reference = $1 group by coffee.name, coffee.reference, country.name, coffee.description, coffee.price", [reference]);
+            const res = await client.query("SELECT coffee.coffee_id, coffee.reference, coffee.name, coffee.price, country.name AS country_name, coffee.description, STRING_AGG(taste.type, ', ' ORDER BY taste.type) AS coffee_type FROM coffee JOIN country ON country.country_id = coffee.country_id join belong ON belong.coffee_id = coffee.coffee_id join taste ON taste.taste_id = belong.taste_id WHERE coffee.coffee_id = $1 group by coffee.coffee_id, coffee.name, coffee.reference, country.name, coffee.description, coffee.price", [id]);
             return res.rows[0];
         } catch (error) {
             console.error('Erreur lors de la récupération du café :', error.message);
@@ -23,7 +23,7 @@ export default {
 
     async getCoffeesNameForHome() {
         try {
-            const res = await client.query('SELECT name, reference FROM coffee LIMIT 3');
+            const res = await client.query('SELECT name, reference, coffee_id FROM coffee LIMIT 3');
             return res.rows;
         } catch (error) {
             console.error('Erreur lors de la récupération des noms de cafés :', error.message);
