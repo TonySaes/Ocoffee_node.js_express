@@ -1,0 +1,29 @@
+<%- include ('partials/header.ejs') %>
+<main>
+   <section id="coffee">
+       <article>
+            <img
+              src="../images/coffees/<%= coffee.reference %>.png"
+              alt="<%= coffee.name %>"
+            />
+            <div class="coffee-details">
+              <h1><%= coffee.name %></h1>
+              <p><%= coffee.description %></p>
+              <div>
+                  <h2>Caractéristiques :</h2>
+                  <p><%= coffee.coffee_type %></p>
+              </div>
+              <div>
+                  <h2>Origine :</h2>
+                  <p><%= coffee.country_name %></p>
+              </div>
+              <div>
+                  <h2>Prix:</h2>
+                  <p><%= coffee.price %> €/kg</p>
+              </div>
+              <a class="button-outline" href="/coffees">Retour au catalogue</a>
+            </div>
+          </article>
+   </section>
+</main>
+<%- include ('partials/footer.ejs') %>

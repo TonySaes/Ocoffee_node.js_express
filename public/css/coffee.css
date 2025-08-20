@@ -1,0 +1,54 @@
+#coffee h1 {
+  padding: 1rem;
+  text-align: center;
+  font-size: 2rem;
+}
+
+
+#coffee article {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border-radius: 0.5rem;
+}
+
+#coffee article img {
+  height: 12rem;
+  width: 100%;
+  object-fit: cover;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.coffee-details {
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#coffee article h2 {
+  font-size: 1.3rem;
+  text-decoration: underline;
+}
+
+.coffee-details div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.coffee-details p {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.coffee-details a {
+  margin-top: 1rem;
+}
+
+#coffee button {
+  margin: 2rem auto 0 auto;
+}
