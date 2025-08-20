@@ -1,0 +1,30 @@
+#map { 
+  height: 350px;
+  width: 75%;
+  margin: 1rem auto;
+}
+
+#about {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+#about h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+#about p {
+    line-height: 1.5rem;
+    margin: 2rem 0;
+    font-size: 1.3rem;
+    line-height: 2rem;
+    text-align: justify;
+}
+
+#about a {
+    width: fit-content;
+}
