@@ -1,0 +1,28 @@
+<%- include('partials/header.ejs') %>
+<main>
+  <section id="catalog">
+    <h1>Notre catalogue</h1>
+
+    <div class="articles only-display-3-articles" id="articles-list">
+      <% for (const coffee of coffees) { %>
+      <article>
+        <img
+          src="../images/coffees/<%= coffee.reference %>.png"
+          alt="<%= coffee.name %>"
+        />
+        <div>
+          <h2><%= coffee.name %></h2>
+          <p>Origine <%= coffee.country_name %></p>
+          <p><%= coffee.price %> €/kg</p>
+          <a class="button-outline" href="/coffees/<%= coffee.reference %>">Voir le détail</a>
+        </div>
+      </article>
+      <% } %>
+    </div>
+
+    <button class="button" id="see-all-products-button">
+      Voir tous les produits
+    </button>
+  </section>
+</main>
+<%- include('partials/footer.ejs') %>

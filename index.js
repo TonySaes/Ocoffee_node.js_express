@@ -3,6 +3,7 @@ import 'dotenv/config';
 
 import homeRouter from './app/routes/home.routes.js';
 import shopRouter from './app/routes/shop.routes.js';
+import coffeeRouter from './app/routes/coffee.routes.js';
 
 const app = express();
 const port = process.env.PORT;
@@ -14,6 +15,7 @@ app.use(express.urlencoded({extended:true}));
 
 app.use('/', homeRouter);
 app.use('/shop', shopRouter);
+app.use('/coffees', coffeeRouter);
 
 app.use((req, res) => {
 res.status(404).render('404', { message: 'Page non trouvée', title: 'Erreur 404', cssFile: 'home.css' });
