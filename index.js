@@ -20,7 +20,11 @@ app.use("/coffees", coffeeRouter);
 app.use("/contact", contactRouter);
 
 app.use((req, res) => {
-res.status(404).render("404", { message: "Page non trouvée", title: "Erreur 404", cssFile: "home.css" });
+    if(error) {
+        console.error("❌ Erreur de connexion à la base :", error.message);
+        return res.status(500).render("404", { message: error.message ||"Erreur de connexion à la base de données", title: "Erreur 500" });
+    }
+    res.status(404).render("404", { message: "Page non trouvée", title: "Erreur 404", cssFile: "home.css" });
 });
 
 app.listen(port, () => {

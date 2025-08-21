@@ -35,3 +35,10 @@
   border-color: var(--color-cream);
   outline: none;
 }
+
+.message {
+  color: var(--color-cream);
+  background-color: var(--color-dark);
+  padding: 1rem;
+  border-radius: 4px;
+}
