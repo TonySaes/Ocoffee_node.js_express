@@ -15,6 +15,9 @@ body {
   color: var(--color-cream);
 
   font-family: Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 section {
