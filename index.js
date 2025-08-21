@@ -26,7 +26,6 @@ app.use((req, res) => {
     res.status(404).render("404", { message: "Page non trouvée", title: "Erreur 404", cssFile: "home.css" });
 });
 app.use((error, req, res, next) => {
-    console.error("Erreur :", error.message);
     res.status(500).render("404", { message: error.message || "Erreur interne", title: "Erreur 500" });
 });
 
