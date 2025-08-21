@@ -29,5 +29,26 @@ export default {
             console.error("Erreur lors de la récupération des noms de cafés :", error.message);
             throw error;
         }
+    },
+
+    async createCoffeeAndBelong(coffeeData, tasteIds) {
+        try {
+            const res = await client.query(
+                `INSERT INTO coffee (name, description, price, reference, country_id) 
+                 VALUES ($1, $2, $3, $4, $5) RETURNING coffee_id`,
+                [coffeeData.name, coffeeData.description, coffeeData.price, coffeeData.reference, coffeeData.country_id]
+            );
+            const coffeeId = res.rows[0].coffee_id;
+
+            if (tasteIds && tasteIds.length > 0) {
+                for (const tasteId of tasteIds) {
+                    await client.query(`INSERT INTO belong (coffee_id, taste_id) VALUES ($1, $2)`, [coffeeId, tasteId]);
+                }
+            }
+            return coffeeId;
+        } catch (error) {
+            console.error("Erreur lors de la création du café :", error.message);
+            throw error;
+        }
     }
 }

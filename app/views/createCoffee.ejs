@@ -10,40 +10,39 @@
     <form action="" method="POST" enctype="multipart/form-data" class="add__form">
         <div>
             <label for="name">Nom du café</label>
-            <input type="text" name="name" required>
+            <input type="text" name="name" id="name" required>
         </div>
         <div>
             <label for="price">Prix au kilo</label>
-            <input type="number" name="price" step="0.01" required>
+            <input type="number" name="price" id="price" step="0.01" required>
         </div>
         <div>
             <label for="reference">Référence</label>
-            <input type="text" name="reference" required>
+            <input type="text" name="reference" id="reference" required>
         </div>
         <div>
             <label for="country">Origine</label>
-            <input type="text" name="country" required>
+            <input type="text" name="country" id="country" required>
         </div>
         <fieldset class="add__form--coffee_type">
             <legend>Caractéristiques</legend>
             <% for (const type of coffeeTypes) { %>
                 <div>
                     <label for="coffee_type"><%= type.type %></label>
-                    <input type="checkbox" name="coffee_type" value="<%= type.type %>">
+                    <input type="checkbox" name="coffee_type" id="coffee_type" value="<%= type.taste_id %>">
                 </div>
             <% } %>
         </fieldset>
         <div>
             <label for="description">Description</label>
-            <textarea name="description"></textarea>
+            <textarea name="description" id="description"></textarea>
         </div>
         <div>
-            <label for="photo">Photo</label>
-            <input type="file" name="photo" accept="image/*">
+            <label for="image">Photo</label>
+            <input type="file" name="uploaded_file" id="image" accept="image/*">
         </div>
         <div>
         <button class="button" type="submit">Ajouter</button>
     </form>
-
 </main>
 <%- include ("partials/footer.ejs") %>
