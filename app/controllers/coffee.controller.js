@@ -2,12 +2,14 @@ import coffeeModels from "../models/coffee.models.js";
 
 export default {
     list: async (req, res, next) => {
+        const { okMessage } = req.query;
         try {
             const coffees = await coffeeModels.getCoffees();
+
             if (!coffees) {
                 return res.status(404).render("404", { message: "Aucun café trouvé", title: "Erreur 404" });
             }
-            res.render("catalog", { coffees, title: "Liste des cafés", cssFile: "catalog.css" });
+            res.render("catalog", { coffees, title: "Liste des cafés", cssFile: "catalog.css", okMessage });
         } catch (error) {
             next(error);
         }

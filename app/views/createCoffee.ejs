@@ -1,0 +1,49 @@
+<%- include ("partials/header.ejs") %>
+<main>
+    <div>
+        <h1>Créer un nouvel article</h1>
+        <p>Veuillez remplir le formulaire ci-dessous pour créer un nouvel article.</p>
+        <% if (errorMessage) { %>
+            <p class="errorMessage"><%= errorMessage %></p>
+        <% } %>
+    </div>
+    <form action="" method="POST" enctype="multipart/form-data" class="add__form">
+        <div>
+            <label for="name">Nom du café</label>
+            <input type="text" name="name" required>
+        </div>
+        <div>
+            <label for="price">Prix au kilo</label>
+            <input type="number" name="price" step="0.01" required>
+        </div>
+        <div>
+            <label for="reference">Référence</label>
+            <input type="text" name="reference" required>
+        </div>
+        <div>
+            <label for="country">Origine</label>
+            <input type="text" name="country" required>
+        </div>
+        <fieldset class="add__form--coffee_type">
+            <legend>Caractéristiques</legend>
+            <% for (const type of coffeeTypes) { %>
+                <div>
+                    <label for="coffee_type"><%= type.type %></label>
+                    <input type="checkbox" name="coffee_type" value="<%= type.type %>">
+                </div>
+            <% } %>
+        </fieldset>
+        <div>
+            <label for="description">Description</label>
+            <textarea name="description"></textarea>
+        </div>
+        <div>
+            <label for="photo">Photo</label>
+            <input type="file" name="photo" accept="image/*">
+        </div>
+        <div>
+        <button class="button" type="submit">Ajouter</button>
+    </form>
+
+</main>
+<%- include ("partials/footer.ejs") %>

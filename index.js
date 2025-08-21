@@ -5,6 +5,7 @@ import homeRouter from "./app/routes/home.routes.js";
 import shopRouter from "./app/routes/shop.routes.js";
 import coffeeRouter from "./app/routes/coffee.routes.js";
 import contactRouter from "./app/routes/contact.routes.js";
+import adminRouter from "./app/routes/admin.routes.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -18,6 +19,7 @@ app.use("/", homeRouter);
 app.use("/shop", shopRouter);
 app.use("/coffees", coffeeRouter);
 app.use("/contact", contactRouter);
+app.use("/admin", adminRouter);
 
 app.use((req, res) => {
     if(error) {

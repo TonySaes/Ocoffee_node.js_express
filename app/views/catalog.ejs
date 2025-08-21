@@ -2,6 +2,9 @@
 <main>
   <section id="catalog">
     <h1>Notre catalogue</h1>
+    <% if (okMessage) { %>
+        <p class="okMessage"><%= okMessage %></p>
+    <% } %>
 
     <div class="articles only-display-4-articles" id="articles-list">
       <% for (const coffee of coffees) { %>

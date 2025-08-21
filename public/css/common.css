@@ -43,3 +43,21 @@
 
   transition: all 0.3s ease-in-out;
 }
+
+/* === Messages === */
+
+.okMessage {
+  color: var(--color-cream);
+  background-color: var(--color-dark);
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 2rem;
+}
+
+.errorMessage {
+  color: var(--color-dark);
+  background-color: var(--color-cream);
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 2rem;
+}

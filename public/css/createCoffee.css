@@ -1,4 +1,4 @@
-.contact__form {
+.add__form {
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -7,7 +7,15 @@
   padding: 1rem;
 }
 
-.contact__form div {
+.add__form--coffee_type {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: auto;
+  border: none;
+}
+
+.add__form div {
   width: 100%;
   max-width: 600px;
   display: flex;
@@ -15,15 +23,21 @@
   gap: 0.5rem;
 }
 
-.contact__form label {
+
+.add__form label, 
+.add__form legend {
   font-weight: bold;
 }
 
-.contact__form textarea {
+.add__form--coffee_type label {
+  font-weight: normal;
+}
+
+.add__form textarea {
   resize: none;
 }
-.contact__form input,
-.contact__form textarea {
+.add__form input,
+.add__form textarea {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -33,10 +47,9 @@
   cursor: pointer;
 }
 
-.contact__form input:focus,
-.contact__form textarea:focus {
+.add__form input:focus,
+.add__form textarea:focus {
   border-color: var(--color-cream);
   outline: none;
 }
-
 
