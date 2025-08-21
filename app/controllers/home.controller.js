@@ -1,7 +1,7 @@
 import coffeeModels from "../models/coffee.models.js";
 
 export default {
-    index : async (req, res) => {
+    index : async (req, res, next) => {
         try {
             const coffees = await coffeeModels.getCoffeesNameForHome();
             if (!coffees) {

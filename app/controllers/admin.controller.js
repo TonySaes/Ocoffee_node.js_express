@@ -17,7 +17,8 @@ export default {
             next(error)
         }
     },
-    async createCoffee(req, res, next) {
+    
+    async createCoffee(req, res) {
         const file = req.file;
 
         try {
@@ -71,14 +72,7 @@ export default {
             const okMessage = encodeURIComponent(`Café "${coffeeData.name}" créé avec succès !`);
             return res.redirect(`/coffees?okMessage=${okMessage}`);
         } catch (error) {
-            // Log détaillé utile pour PG
-            console.error("[createCoffee] ERROR:", {
-                message: error.message,
-                code: error.code,
-                detail: error.detail,
-                constraint: error.constraint
-            });
-            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la création du café.");
+            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la création du café : " + error.code + " " + error.detail);
             return res.redirect(`/admin?errorMessage=${errorMessage}`);
         }
     }
