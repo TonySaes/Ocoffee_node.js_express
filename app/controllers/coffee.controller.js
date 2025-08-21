@@ -5,7 +5,7 @@ export default {
         try {
             const coffees = await coffeeModels.getCoffees();
             if (!coffees) {
-                return res.status(404).render("404", { message: "Aucun café trouvé", title: "Erreur 404" });// If no coffees found, render 404 page
+                return res.status(404).render("404", { message: "Aucun café trouvé", title: "Erreur 404" });
             }
             res.render("catalog", { coffees, title: "Liste des cafés", cssFile: "catalog.css" });
         } catch (error) {

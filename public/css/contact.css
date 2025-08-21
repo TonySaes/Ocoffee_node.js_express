@@ -19,6 +19,9 @@
   font-weight: bold;
 }
 
+.contact__form textarea {
+  resize: none;
+}
 .contact__form input,
 .contact__form textarea {
   padding: 0.5rem;
@@ -36,9 +39,18 @@
   outline: none;
 }
 
-.message {
+.okMessage {
   color: var(--color-cream);
   background-color: var(--color-dark);
   padding: 1rem;
   border-radius: 4px;
+  margin-top: 2rem;
+}
+
+.errorMessage {
+  color: var(--color-dark);
+  background-color: var(--color-cream);
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 2rem;
 }

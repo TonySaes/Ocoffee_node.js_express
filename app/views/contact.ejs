@@ -2,8 +2,11 @@
 <div>
     <h1>Contact</h1>
     <p>Pour toute question, n'hésitez pas à nous contacter.</p>
-    <% if (message) { %>
-        <p class="message"><%= message %></p>
+    <% if (okMessage) { %>
+        <p class="okMessage"><%= okMessage %></p>
+    <% } %>
+    <% if (errorMessage) { %>
+        <p class="errorMessage"><%= errorMessage %></p>
     <% } %>
 </div>
 
