@@ -25,5 +25,15 @@ export default {
             throw error;
         }
     }, 
-   
+
+    async createTaste(type) {
+        try {
+            const res = await client.query(`INSERT INTO taste (type) VALUES ($1) ON CONFLICT (type) DO UPDATE SET type = EXCLUDED.type RETURNING taste_id`, [type]);
+            return res.rows[0].taste_id;
+        } catch (error) {
+            console.error("Erreur lors de la création du type de café :", error);
+            throw error;
+        }
+    }
+
 };

@@ -19,5 +19,7 @@ router.get("/editUser/:id", adminController.showEditUser);
 router.post("/editUser/:id", adminController.editUser);
 router.get("/editCoffee/:id", adminController.showEditCoffee);
 router.post("/editCoffee/:id", adminController.editCoffee);
+router.get("/createTaste", adminController.showCreateTaste);
+router.post("/createTaste", adminController.createTaste);
 
 export default router;

@@ -1,0 +1,15 @@
+<%- include ("partials/header.ejs") %>
+
+<h1>Créer un nouveau goût de café</h1>
+<% if (errorMessage) { %>
+    <p class="errorMessage"><%= errorMessage %></p>
+<% } %>
+<form action="" method="POST" class="addTaste__form">
+    <div>
+        <label for="type">Nom :</label>
+        <input type="text" id="type" name="type" required>
+    </div>
+    <button class="button" type="submit">Créer</button>
+</form>
+
+<%- include ("partials/footer.ejs") %>

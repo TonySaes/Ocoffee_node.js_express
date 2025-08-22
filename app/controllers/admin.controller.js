@@ -267,5 +267,30 @@ export default {
             const errorMessage = encodeURIComponent("Une erreur est survenue lors de la modification du café : " + (error.detail || error.message));
             res.redirect(`/admin/editCoffee/${id}?errorMessage=${errorMessage}`);
         }
+    }, 
+
+    async showCreateTaste(req, res) {
+        const { errorMessage } = req.query;
+        res.render("createTaste", { title: "Créer un type de café", cssFile: "createTaste.css", errorMessage });
+    },
+
+    async createTaste(req, res) {
+        const typeInput = String(req.body.type ?? "").trim();
+        const errors = [];
+        if (!String(typeInput || "").trim()) errors.push("Le nom est requis.");
+
+        if (errors.length) {
+            const errorMessage = encodeURIComponent(errors.join(" "));
+            return res.redirect(`/admin/createTaste?errorMessage=${errorMessage}`);
+        }
+
+        try {
+            await tasteModel.createTaste(typeInput);
+            const okMessage = encodeURIComponent(`Type de café "${typeInput}" créé avec succès !`);
+            res.redirect(`/admin?okMessage=${okMessage}`);
+        } catch (error) {
+            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la création du type de café : " + (error.detail || error.message));
+            res.redirect(`/admin/createTaste?errorMessage=${errorMessage}`);
+        }
     }
 }
