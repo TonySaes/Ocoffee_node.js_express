@@ -34,4 +34,15 @@ export default {
         throw error;
         }
     },
+
+    async updateUser(id, { username, password, is_admin }) {
+        try {
+            await client.query("UPDATE users SET username = $1, password = $2, is_admin = $3 WHERE id = $4",
+                [String(username).trim(), password, is_admin, id]);
+        } catch (error) {
+            console.error("Erreur dans la mise à jour de l'utilisateur :", error);
+            throw error;
+        }
+    },
+
 };

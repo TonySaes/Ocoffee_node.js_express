@@ -170,5 +170,25 @@ export default {
             const errorMessage = encodeURIComponent("Une erreur est survenue lors de la récupération de l'utilisateur : " + (error.detail || error.message));
             return res.redirect(`/admin/manageUsers?errorMessage=${errorMessage}`);
         }
-    }
+    }, 
+
+    async editUser(req, res) {
+        const id = req.params.id;
+        const { username, password, is_admin } = req.body;
+        const errors = [];
+        if (!username) errors.push("Le nom d'utilisateur est requis.");
+        if (!password) errors.push("Le mot de passe est requis.");
+        if (errors.length) {
+            const errorMessage = encodeURIComponent(errors.join(" "));
+            return res.redirect(`/admin/editUser/${id}?errorMessage=${errorMessage}`);
+        }
+        try {
+            await usersModels.updateUser(id, { username, password, is_admin });
+            const okMessage = encodeURIComponent(`Utilisateur "${username}" modifié avec succès !`);
+            res.redirect(`/admin/manageUsers?okMessage=${okMessage}`);
+        } catch (error) {
+            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la modification de l'utilisateur : " + (error.detail || error.message));
+            res.redirect(`/admin/editUser/${id}?errorMessage=${errorMessage}`);
+        }
+    },
 };

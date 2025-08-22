@@ -16,6 +16,6 @@ router.get("/manageUsers", adminController.listUsers);
 router.get("/createUser", adminController.showCreateUser);
 router.post("/createUser", adminController.createUser);
 router.get("/editUser/:id", adminController.showEditUser);
-// router.post("/editUser/:id", adminController.editUser);
+router.post("/editUser/:id", adminController.editUser);
 
 export default router;
