@@ -119,11 +119,41 @@ export default {
     },
 
     async listUsers(req, res) {
-        const users = await usersModels.getAllUsers();
-        if (!users) {
-            const errorMessage = encodeURIComponent("Aucun utilisateur trouvé.");
+        try {
+            const { okMessage } = req.query;
+            const users = await usersModels.getAllUsers();
+            if (!users) {
+                const errorMessage = encodeURIComponent("Aucun utilisateur trouvé.");
+                return res.redirect(`/admin?errorMessage=${errorMessage}`);
+            }
+            res.render("manageUsers", { title: "Gestion des utilisateurs", users, cssFile: "admin.css", okMessage });
+        } catch (error) {
+            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la récupération des utilisateurs : " + (error.detail || error.message));
             return res.redirect(`/admin?errorMessage=${errorMessage}`);
         }
-        res.render("manageUsers", { title: "Gestion des utilisateurs", users, cssFile: "manageUsers.css" });
+    },
+
+    async showCreateUser(req, res) {
+        const { errorMessage } = req.query;
+        res.render("createUser", { title: "Créer un utilisateur", cssFile: "createUser.css", errorMessage });
+    },
+
+    async createUser(req, res) {
+        const { username, password, is_admin } = req.body;
+        const errors = [];
+        if (!username) errors.push("Le nom d'utilisateur est requis.");
+        if (!password) errors.push("Le mot de passe est requis.");
+        if (errors.length) {
+            const errorMessage = encodeURIComponent(errors.join(" "));
+            return res.redirect(`/admin/createUser?errorMessage=${errorMessage}`);
+        }
+        try {
+            const userId = await usersModels.createUser({ username, password, is_admin });
+            const okMessage = encodeURIComponent(`Utilisateur "${username}" créé avec succès !`);
+            res.redirect(`/admin/manageUsers?okMessage=${okMessage}`);
+        } catch (error) {
+            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la création de l'utilisateur : " + (error.detail || error.message));
+            res.redirect(`/admin/createUser?errorMessage=${errorMessage}`);
+        }
     }
 };

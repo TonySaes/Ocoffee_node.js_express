@@ -1,0 +1,27 @@
+<%- include("partials/header.ejs") %>
+<main>
+    <% if (errorMessage) { %>
+        <div class="error"><%= errorMessage %></div>
+    <% } %>
+    <h1>Créer un utilisateur</h1>
+    <form action="" method="POST" class="createUser__form">
+        <div>
+            <label for="username">Nom d'utilisateur :</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <label for="is_admin">Admin :</label>
+            <select id="is_admin" name="is_admin">
+                <option value="true">Oui</option>
+                <option value="false">Non</option>
+            </select>
+        </div>
+        <button class="button" type="submit">Créer</button>
+    </form>
+    <a class="button" href="/admin/manageUsers">Retour à la gestion des utilisateurs</a>
+</main>
+<%- include("partials/footer.ejs") %>

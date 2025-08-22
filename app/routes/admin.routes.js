@@ -13,5 +13,7 @@ router.get("/logout", adminController.logout);
 router.get("/createCoffee", adminController.showCreateCoffee);
 router.post("/createCoffee", upload.single("uploaded_file"), adminController.createCoffee);
 router.get("/manageUsers", adminController.listUsers);
+router.get("/createUser", adminController.showCreateUser);
+router.post("/createUser", adminController.createUser);
 
 export default router;

@@ -24,10 +24,10 @@ export default {
         }
     },
 
-    async createUser({ username, password_hash, is_admin = true }) {
+    async createUser({ username, password, is_admin }) {
         try {
-        const res = await client.query("INSERT INTO users (username, password_hash, is_admin) VALUES ($1, $2, $3) RETURNING id",
-            [String(username).trim(), password_hash, !!is_admin]);
+        const res = await client.query("INSERT INTO users (username, password, is_admin) VALUES ($1, $2, $3) RETURNING id",
+            [String(username).trim(), password, is_admin]);
         return res.rows[0].id;
         } catch (error) {
         console.error("Error creating user:", error);
