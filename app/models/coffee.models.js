@@ -21,16 +21,6 @@ export default {
         }
     },
 
-    async getCoffeesNameForHome() {
-        try {
-            const res = await client.query("SELECT name, reference, coffee_id FROM coffee LIMIT 3");
-            return res.rows;
-        } catch (error) {
-            console.error("Erreur lors de la récupération des noms de cafés :", error.message);
-            throw error;
-        }
-    },
-
     async createCoffee(coffeeData) {
         try {
             const res = await client.query(
@@ -40,12 +30,7 @@ export default {
             );
             return res.rows[0].coffee_id;
         } catch (error) {
-            console.error("[coffeeModel.createCoffee] PG ERROR:", {
-                message: error.message,
-                code: error.code,
-                detail: error.detail,
-                constraint: error.constraint
-            });
+            console.error("Erreur lors de la création du café :", error.message);
             throw error;
         }
     }

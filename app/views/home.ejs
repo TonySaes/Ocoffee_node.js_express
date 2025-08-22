@@ -12,13 +12,13 @@
   <section id="latest-products">
     <h2>Nouveautés</h2> 
     <ul>
-      <% for (const coffee of coffees) { %>
+      <% for (let i = 0; i < 3; i++) { %>
       <li>
         <article>
-          <img src="../images/coffees/<%= coffee.reference %>.png" alt="<%= coffee.name %>">
+          <img src="../images/coffees/<%= coffees[i].reference %>.png" alt="<%= coffees[i].name %>">
           <div>
-            <h3><%= coffee.name %></h3>
-            <a class="button-outline" href="/coffees/<%= coffee.coffee_id %>">Voir le détail</a>
+            <h3><%= coffees[i].name %></h3>
+            <a class="button-outline" href="/coffees/<%= coffees[i].coffee_id %>">Voir le détail</a>
           </div>
         </article>
       </li>
