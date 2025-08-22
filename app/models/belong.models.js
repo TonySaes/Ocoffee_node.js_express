@@ -19,5 +19,15 @@ export default {
             console.error("Erreur lors de la récupération des types de café :", error.message);
             throw error;
         }
+    },
+
+    async deleteBelong(coffeeId, tasteId) {
+        try {
+            const res = await client.query("DELETE FROM belong WHERE coffee_id = $1 AND taste_id = $2 RETURNING *", [coffeeId, tasteId]);
+            return res.rows[0];
+        } catch (error) {
+            console.error("Erreur lors de la suppression de l'association belong :", error.message);
+            throw error;
+        }
     }
 }

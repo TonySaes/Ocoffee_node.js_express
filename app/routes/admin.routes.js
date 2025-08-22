@@ -18,6 +18,6 @@ router.post("/createUser", adminController.createUser);
 router.get("/editUser/:id", adminController.showEditUser);
 router.post("/editUser/:id", adminController.editUser);
 router.get("/editCoffee/:id", adminController.showEditCoffee);
-// router.post("/editCoffee/:id", adminController.editCoffee);
+router.post("/editCoffee/:id", adminController.editCoffee);
 
 export default router;

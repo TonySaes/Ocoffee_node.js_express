@@ -33,5 +33,19 @@ export default {
             console.error("Erreur lors de la création du café :", error.message);
             throw error;
         }
+    }, 
+
+    async updateCoffee(id, coffeeData) {
+        try {
+            const res = await client.query(
+                `UPDATE coffee SET name = $1, description = $2, price = $3, country_id = $4
+                 WHERE coffee_id = $5 RETURNING *`,
+                [coffeeData.name, coffeeData.description, coffeeData.price, coffeeData.country_id, id]
+            );
+            return res.rows[0];
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour du café :", error.message);
+            throw error;
+        }
     }
 }

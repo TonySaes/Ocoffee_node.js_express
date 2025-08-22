@@ -42,16 +42,15 @@
       </button>
 
       <ul>
-        <% if (session.isAdmin) { %>
-          <li>Bonjour <%= session.username %></li>
-          <li><a href="/admin">Admin</a></li>
-          <li><a href="/admin/logout">Se déconnecter</a></li>
-        <% } %>
         <li><a href="/">Accueil</a></li>
         <li><a href="/coffees">Catalogue</a></li>
         <li><a href="/shop">Qui sommes-nous?</a></li>
         <li><a href="/contact">Contact</a></li>
         <li><a href="/admin/login">Connexion</a></li>
+        <% if (session.isAdmin) { %>
+          <li><a href="/admin">Admin</a></li>
+          <li><a href="/admin/logout">Se déconnecter</a></li>
+        <% } %>
       </ul>
     </nav>
   </header>

@@ -208,5 +208,64 @@ export default {
             const errorMessage = encodeURIComponent("Une erreur est survenue lors de la récupération du café : " + (error.detail || error.message));
             return res.redirect(`/admin/manageCoffees?errorMessage=${errorMessage}`);
         }
+    }, 
+
+    async editCoffee(req, res) {
+        const id = Number(req.params.id);
+        const { name, price, country, description, coffee_type } = req.body;
+        const parsedPrice = Number(String(price).trim().replace(",", "."));
+        let newTasteIds = [];
+        if (Array.isArray(coffee_type)) {
+            newTasteIds = coffee_type.map(Number);
+        } else if (coffee_type != null) { // couvre undefined et null
+            newTasteIds = [Number(coffee_type)];
+        }
+
+        const errors = [];
+        if (!String(name || "").trim()) errors.push("Le nom est requis.");
+        if (!String(description || "").trim()) errors.push("La description est requise.");
+        if (!Number.isFinite(parsedPrice)) errors.push("Le prix doit être un nombre.");
+        if (!String(country || "").trim()) errors.push("Le pays est requis.");
+        if (!newTasteIds.length) errors.push("Sélectionnez au moins une caractéristique.");
+
+        if (errors.length) {
+            const errorMessage = encodeURIComponent(errors.join(" "));
+            return res.redirect(`/admin?errorMessage=${errorMessage}`);
+        }
+
+        try {
+            
+            let country_id = await countryModel.getCountryIdByName(country);
+            if (!country_id) {
+                country_id = await countryModel.createCountry(country);
+            }
+            const coffeeData = {
+                name: String(name),
+                price: parsedPrice,
+                country_id: Number(country_id),
+                description: String(description)
+            };
+            
+            const result = await coffeeModels.updateCoffee(id, coffeeData);
+
+            const oldTasteIds = await belongModels.getTasteIdsByCoffeeId(id);
+
+            const oldSet = new Set(oldTasteIds);
+            const newSet = new Set(newTasteIds);
+            const toAdd = newTasteIds.filter(id => !oldSet.has(id));
+            const toRemove = oldTasteIds.filter(id => !newSet.has(id));
+
+            for (const id of toAdd) {
+                await belongModels.createBelong(result.coffee_id, id);
+            }
+            for (const id of toRemove) {
+                await belongModels.deleteBelong(result.coffee_id, id);
+            }
+            const okMessage = encodeURIComponent(`Café "${name}" modifié avec succès !`);
+            res.redirect(`/coffees?okMessage=${okMessage}`);
+        } catch (error) {
+            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la modification du café : " + (error.detail || error.message));
+            res.redirect(`/admin/editCoffee/${id}?errorMessage=${errorMessage}`);
+        }
     }
 }
