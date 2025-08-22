@@ -3,11 +3,13 @@ import tasteModel from "../models/taste.models.js";
 import countryModel from "../models/country.models.js";
 import coffeeModels from "../models/coffee.models.js";
 import belongModels from "../models/belong.models.js";
+import usersModels from "../models/users.models.js";
 
 export default {
     async index(req, res, next) {
         const { okMessage } = req.query;
-        res.render("admin", { title: "Admin", cssFile: "admin.css", okMessage });
+        const { errorMessage } = req.query;
+        res.render("admin", { title: "Admin", cssFile: "admin.css", okMessage, errorMessage });
     },
 
     async showCreateCoffee(req, res, next) {
@@ -114,5 +116,14 @@ export default {
             res.clearCookie("sessionId");
             res.redirect("/");
         });
+    },
+
+    async listUsers(req, res) {
+        const users = await usersModels.getAllUsers();
+        if (!users) {
+            const errorMessage = encodeURIComponent("Aucun utilisateur trouvé.");
+            return res.redirect(`/admin?errorMessage=${errorMessage}`);
+        }
+        res.render("manageUsers", { title: "Gestion des utilisateurs", users, cssFile: "manageUsers.css" });
     }
-}
+};

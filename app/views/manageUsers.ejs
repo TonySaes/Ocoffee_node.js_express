@@ -1,0 +1,29 @@
+<%- include("partials/header.ejs") %>
+<main>
+    <h1>Gestion des utilisateurs</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom d'utilisateur</th>
+                <th>Admin</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= user.id %></td>
+                    <td><%= user.username %></td>
+                    <td><%= user.is_admin ? "Oui" : "Non" %></td>
+                    <td>
+                        <a href="/admin/editUser/<%= user.id %>" class="button">Modifier</a>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <a class="button" href="/admin">Retour à l'administration</a>
+    <a href="/admin/createUser" class="button">Créer un utilisateur</a>"></a>
+</main>
+<%- include("partials/footer.ejs") %>
