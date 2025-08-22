@@ -1,6 +1,9 @@
 <%- include("partials/header.ejs") %>
 
 <h1>Administration</h1>
+<% if (okMessage) { %>
+    <p class="okMessage"><%= okMessage %></p>
+<% } %>
 
 <nav class="admin-nav">
     <ul>

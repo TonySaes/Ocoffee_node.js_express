@@ -6,18 +6,18 @@ import belongModels from "../models/belong.models.js";
 
 export default {
     async index(req, res, next) {
-        res.render("admin", { title: "Admin", cssFile: "admin.css" });
+        const { okMessage } = req.query;
+        res.render("admin", { title: "Admin", cssFile: "admin.css", okMessage });
     },
 
     async showCreateCoffee(req, res, next) {
         try {
             const { errorMessage } = req.query;
-            const { okMessage } = req.query;
             const coffeeTypes = await tasteModel.getAllTypes();
             if (!coffeeTypes) {
                 return res.status(404).render("404", { message: "Aucun type de café trouvé", title: "Erreur 404" });
             }
-            res.render("createCoffee", { title: "Créer un article", cssFile: "createCoffee.css", errorMessage, okMessage, coffeeTypes });
+            res.render("createCoffee", { title: "Créer un article", cssFile: "createCoffee.css", errorMessage, coffeeTypes });
         } catch (error) {
             next(error)
         }
@@ -95,13 +95,19 @@ export default {
         if (!okUser || !okPass) {
             const errorMessage = encodeURIComponent("Identifiants invalides.");
             return res.redirect(`/admin/login?errorMessage=${errorMessage}`);
-        } else {
+        }
+        req.session.regenerate((error) => {
+            if (error) {
+                const errorMessage = encodeURIComponent("Une erreur est survenue lors de la connexion.");
+                return res.redirect(`/admin/login?errorMessage=${errorMessage}`);
+            }
             req.session.isAdmin = true;
             req.session.username = username;
+            req.session.save();
             const okMessage = encodeURIComponent("Connexion réussie.");
-            res.redirect(`/admin/createCoffee?okMessage=${okMessage}`);
-        }
-    }, 
+            res.redirect(`/admin?okMessage=${okMessage}`);
+        });
+    },
 
     logout(req, res) {
         req.session.destroy(() => {
