@@ -1,4 +1,5 @@
 import express from "express";
+import session from "express-session";
 import "dotenv/config";
 
 import homeRouter from "./app/routes/home.routes.js";
@@ -15,6 +16,20 @@ app.set("views", "./app/views");
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
+app.use((req, res, next) => {
+    res.locals.session = req.session ;
+    next();
+});
+app.get("/debug/session", (req, res) => {
+    req.session.views = (req.session.views || 0) + 1;
+    console.log(process.env.SESSION_SECRET);
+    res.send(`Nombre de vues : ${req.session.views}`);
+});
 
 app.use("/", homeRouter);
 app.use("/shop", shopRouter);

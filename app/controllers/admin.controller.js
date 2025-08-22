@@ -47,7 +47,7 @@ export default {
                 return res.redirect(`/admin?errorMessage=${errorMessage}`);
             };
 
-            // 3) country_id depuis le nom (création auto si absent)
+            // 3) Récupération / création du pays
             let countryId = await countryModel.getCountryIdByName(country);
             if (!countryId) {
                 countryId = await countryModel.createCountry(country);
@@ -72,7 +72,8 @@ export default {
             const okMessage = encodeURIComponent(`Café "${coffeeData.name}" créé avec succès !`);
             return res.redirect(`/coffees?okMessage=${okMessage}`);
         } catch (error) {
-            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la création du café : " + error.code + " " + error.detail);
+            if (file?.path) { try { await fs.unlink(file.path); } catch {} };
+            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la création du café : " + (error.detail || error.message));
             return res.redirect(`/admin?errorMessage=${errorMessage}`);
         }
     }
