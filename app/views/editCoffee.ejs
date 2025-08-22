@@ -1,0 +1,38 @@
+<%- include ("partials/header.ejs") %>
+<main>
+    <div>
+        <h1>Modifier le café</h1>
+        <% if (errorMessage) { %>
+            <p class="errorMessage"><%= errorMessage %></p>
+        <% } %>
+    </div>
+    <form action="" method="POST" class="editCoffee__form">
+        <div>
+            <label for="name">Nom du café :</label>
+            <input type="text" id="name" name="name" value="<%= coffee.name %>" required>
+        </div>
+        <div>
+            <label for="price">Prix :</label>
+            <input type="number" id="price" name="price" value="<%= coffee.price %>" required>
+        </div>
+        <div>
+            <label for="country_name">Pays d'origine :</label>
+            <input type="text" id="country_name" name="country_name" value="<%= coffee.country_name %>" required>
+        </div>
+        <div>
+            <label for="description">Description :</label>
+            <textarea id="description" name="description" required><%= coffee.description %></textarea>
+        </div>
+        <fieldset class="editCoffee__form--coffee_type">
+            <legend>Caractéristiques</legend>
+            <% for (const type of coffeeTypes) { %>
+                <div>
+                    <label for="coffee_type"><%= type.type %></label>
+                    <input type="checkbox" name="coffee_type" id="coffee_type" value="<%= type.taste_id %>" <% if (selectedTypes.includes(type.taste_id)) { %>checked<% } %>>
+                </div>
+            <% } %>
+        </fieldset>
+        <button class="button" type="submit">Modifier</button>
+    </form>
+</main>
+<%- include ("partials/footer.ejs") %>

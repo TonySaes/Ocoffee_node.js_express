@@ -1,0 +1,55 @@
+.editCoffee__form {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.editCoffee__form--coffee_type {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: auto;
+  border: none;
+}
+
+.editCoffee__form div {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+
+.editCoffee__form label, 
+.editCoffee__form legend {
+  font-weight: bold;
+}
+
+.editCoffee__form--coffee_type label {
+  font-weight: normal;
+}
+
+.editCoffee__form textarea {
+  resize: none;
+}
+.editCoffee__form input,
+.editCoffee__form textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  background-color: var(--color-dark);
+  color: var(--color-cream);
+  cursor: pointer;
+}
+
+.editCoffee__form input:focus,
+.editCoffee__form textarea:focus {
+  border-color: var(--color-cream);
+  outline: none;
+}
+

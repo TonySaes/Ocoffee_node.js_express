@@ -191,4 +191,22 @@ export default {
             res.redirect(`/admin/editUser/${id}?errorMessage=${errorMessage}`);
         }
     },
-};
+
+    async showEditCoffee(req, res) {
+        const id = req.params.id;
+        const { errorMessage } = req.query;
+        try {
+            const coffee = await coffeeModels.getCoffeeById(id);
+            const coffeeTypes = await tasteModel.getAllTypes();
+            const selectedTypes = await belongModels.getTasteIdsByCoffeeId(id);
+            if (!coffee) {
+                const errorMessage = encodeURIComponent("Café non trouvé.");
+                return res.redirect(`/admin/editCoffee/${id}?errorMessage=${errorMessage}`);
+            }
+            res.render("editCoffee", { title: `Éditer ${coffee.name}`, cssFile: "editCoffee.css", coffee, coffeeTypes, selectedTypes, errorMessage });
+        } catch (error) {
+            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la récupération du café : " + (error.detail || error.message));
+            return res.redirect(`/admin/manageCoffees?errorMessage=${errorMessage}`);
+        }
+    }
+}

@@ -21,6 +21,9 @@
                   <h2>Prix:</h2>
                   <p><%= coffee.price %> €/kg</p>
               </div>
+              <% if (session.isAdmin) { %>
+                <a class="button" href="/admin/editCoffee/<%= coffee.coffee_id %>">Modifier</a>
+              <% } %>
               <a class="button-outline" href="/coffees">Retour au catalogue</a>
             </div>
           </article>
