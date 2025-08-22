@@ -15,5 +15,7 @@ router.post("/createCoffee", upload.single("uploaded_file"), adminController.cre
 router.get("/manageUsers", adminController.listUsers);
 router.get("/createUser", adminController.showCreateUser);
 router.post("/createUser", adminController.createUser);
+router.get("/editUser/:id", adminController.showEditUser);
+// router.post("/editUser/:id", adminController.editUser);
 
 export default router;

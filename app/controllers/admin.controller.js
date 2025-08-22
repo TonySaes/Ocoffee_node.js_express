@@ -155,5 +155,20 @@ export default {
             const errorMessage = encodeURIComponent("Une erreur est survenue lors de la création de l'utilisateur : " + (error.detail || error.message));
             res.redirect(`/admin/createUser?errorMessage=${errorMessage}`);
         }
+    }, 
+    async showEditUser(req, res) {
+        const id = req.params.id;
+        const { errorMessage } = req.query;
+        try {
+            const user = await usersModels.findUserById(id);
+            if (!user) {
+                const errorMessage = encodeURIComponent("Utilisateur non trouvé.");
+                return res.redirect(`/admin/editUser/${id}?errorMessage=${errorMessage}`);
+            }
+            res.render("editUser", { title: `Éditer ${user.username}`, cssFile: "editUser.css", user, errorMessage });
+        } catch (error) {
+            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la récupération de l'utilisateur : " + (error.detail || error.message));
+            return res.redirect(`/admin/manageUsers?errorMessage=${errorMessage}`);
+        }
     }
 };

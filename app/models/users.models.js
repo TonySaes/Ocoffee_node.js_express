@@ -9,17 +9,17 @@ export default {
         );
         return res.rows;
         } catch (error) {
-        console.error("Error fetching all users:", error);
+        console.error("Erreur dans la récupération des utilisateurs :", error);
         throw error;
         }
     },
-    async findByUsername(username) {
+    async findUserById(id) {
         try {
-        const res = await client.query("SELECT id, username, password, is_admin FROM users WHERE username = $1 LIMIT 1", 
-            [String(username).trim()]);
+        const res = await client.query("SELECT id, username, password, is_admin FROM users WHERE id = $1 LIMIT 1", 
+            [id]);
         return res.rows[0] || null;
         } catch (error) {
-        console.error("Error finding user by username:", error);
+        console.error("Erreur dans la recherche de l'utilisateur par id :", error);
         throw error;
         }
     },
@@ -30,7 +30,7 @@ export default {
             [String(username).trim(), password, is_admin]);
         return res.rows[0].id;
         } catch (error) {
-        console.error("Error creating user:", error);
+        console.error("Erreur dans la création de l'utilisateur :", error);
         throw error;
         }
     },

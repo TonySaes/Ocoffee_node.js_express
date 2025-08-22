@@ -1,0 +1,26 @@
+<%- include("partials/header.ejs") %>
+<main>
+    <% if (errorMessage) { %>
+        <div class="error"><%= errorMessage %></div>
+    <% } %>
+    <h1>Modifier l'utilisateur <%= user.username %></h1>
+    <form action="" method="POST" class="editUser__form">
+        <div>
+            <label for="username">Nom d'utilisateur :</label>
+            <input type="text" id="username" name="username" value="<%= user.username %>" required>
+        </div>
+        <div>
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" value="<%= user.password %>" required>
+        </div>
+        <div>
+            <label for="is_admin">Rôle :</label>
+            <select id="is_admin" name="is_admin">
+                <option value="true" <%= user.is_admin ? "selected" : "" %>>Administrateur</option>
+                <option value="false" <%= !user.is_admin ? "selected" : "" %>>Utilisateur</option>
+            </select>
+        </div>
+        <button class="button" type="submit">Modifier</button>
+    </form>
+</main>
+<%- include("partials/footer.ejs") %>
