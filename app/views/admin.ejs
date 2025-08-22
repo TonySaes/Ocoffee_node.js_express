@@ -1,0 +1,16 @@
+<%- include("partials/header.ejs") %>
+
+<h1>Administration</h1>
+
+<nav class="admin-nav">
+    <ul>
+        <li><a class="button" href="/admin/createCoffee">Créer un café</a></li>
+        <li><a class="button" href="/admin/editCoffee">Modifier un café</a></li>
+        <li><a class="button" href="/admin/createTaste">Créer un type de café</a></li>
+        <li><a class="button" href="/admin/logout">Se déconnecter</a></li>
+    </ul>
+</nav>
+
+<a class="button" href="/">Retour à l'accueil</a>
+
+<%- include("partials/footer.ejs") %>

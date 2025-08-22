@@ -6,13 +6,18 @@ import belongModels from "../models/belong.models.js";
 
 export default {
     async index(req, res, next) {
+        res.render("admin", { title: "Admin", cssFile: "admin.css" });
+    },
+
+    async showCreateCoffee(req, res, next) {
         try {
             const { errorMessage } = req.query;
+            const { okMessage } = req.query;
             const coffeeTypes = await tasteModel.getAllTypes();
             if (!coffeeTypes) {
                 return res.status(404).render("404", { message: "Aucun type de café trouvé", title: "Erreur 404" });
             }
-            res.render("createCoffee", { title: "Créer un article", cssFile: "createCoffee.css", errorMessage, coffeeTypes });
+            res.render("createCoffee", { title: "Créer un article", cssFile: "createCoffee.css", errorMessage, okMessage, coffeeTypes });
         } catch (error) {
             next(error)
         }
@@ -76,5 +81,32 @@ export default {
             const errorMessage = encodeURIComponent("Une erreur est survenue lors de la création du café : " + (error.detail || error.message));
             return res.redirect(`/admin?errorMessage=${errorMessage}`);
         }
+    },
+
+    showLogin(req, res) {
+        const errorMessage = req.query.errorMessage;
+        res.render("login", { title: "Connexion", cssFile: "login.css", errorMessage });
+    },
+
+    handleLogin(req, res) {
+        const { username, password } = req.body;
+        const okUser = username === process.env.ADMIN_USER;
+        const okPass = password === process.env.ADMIN_PASSWORD;
+        if (!okUser || !okPass) {
+            const errorMessage = encodeURIComponent("Identifiants invalides.");
+            return res.redirect(`/admin/login?errorMessage=${errorMessage}`);
+        } else {
+            req.session.isAdmin = true;
+            req.session.username = username;
+            const okMessage = encodeURIComponent("Connexion réussie.");
+            res.redirect(`/admin/createCoffee?okMessage=${okMessage}`);
+        }
+    }, 
+
+    logout(req, res) {
+        req.session.destroy(() => {
+            res.clearCookie("sessionId");
+            res.redirect("/");
+        });
     }
 }

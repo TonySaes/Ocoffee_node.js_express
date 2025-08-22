@@ -4,7 +4,6 @@ export default {
     index : async (req, res, next) => {
         try {
             const coffees = await coffeeModels.getCoffees();
-            console.log(coffees);
             if (!coffees) {
                 return res.status(404).render("404", { message: "Aucun café trouvé", title: "Erreur 404" });
             }

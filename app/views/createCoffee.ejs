@@ -3,6 +3,9 @@
     <div>
         <h1>Créer un nouvel article</h1>
         <p>Veuillez remplir le formulaire ci-dessous pour créer un nouvel article.</p>
+        <% if (okMessage) { %>
+            <p class="okMessage"><%= okMessage %></p>
+        <% } %>
         <% if (errorMessage) { %>
             <p class="errorMessage"><%= errorMessage %></p>
         <% } %>

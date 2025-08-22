@@ -42,6 +42,15 @@
       </button>
 
       <ul>
+        <% if (typeof session !== 'undefined' && session && session.isAdmin) { %>
+          <li><span>Bonjour <%= session.username || '' %></span></li>
+          <li><a href="/admin">Admin</a></li>
+          <li><a href="/admin/logout">Se déconnecter</a></li>
+          <% } else { %>
+          <li><a href="/admin/login">Connexion</a></li>
+          <% } %>
+          <!-- <li style="opacity:.5">Debug: <%= JSON.stringify(session) %></li> -->
+          
         <li><a href="/">Accueil</a></li>
         <li><a href="/coffees">Catalogue</a></li>
         <li><a href="/shop">Qui sommes-nous?</a></li>

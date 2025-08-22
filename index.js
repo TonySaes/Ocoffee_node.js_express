@@ -17,20 +17,21 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(session({
+    name: "sessionId",
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 2
+    }
 }));
+
 app.use((req, res, next) => {
-    res.locals.session = req.session ;
+    res.locals.session = req.session || {};
     next();
 });
-app.get("/debug/session", (req, res) => {
-    req.session.views = (req.session.views || 0) + 1;
-    console.log(process.env.SESSION_SECRET);
-    res.send(`Nombre de vues : ${req.session.views}`);
-});
-
 app.use("/", homeRouter);
 app.use("/shop", shopRouter);
 app.use("/coffees", coffeeRouter);
@@ -38,10 +39,12 @@ app.use("/contact", contactRouter);
 app.use("/admin", adminRouter);
 
 app.use((req, res) => {
+    console.error(`404 - Page non trouvée : ${req.originalUrl}`);
     res.status(404).render("404", { message: "Page non trouvée", title: "Erreur 404", cssFile: "home.css" });
 });
 app.use((error, req, res, next) => {
-    res.status(500).render("404", { message: error.message || "Erreur interne", title: "Erreur 500" });
+    console.error(`500 - Erreur interne : ${error.message}`);
+    res.status(500).render("404", { message: error.message || "Erreur interne", title: "Erreur 500", cssFile: "home.css" });
 });
 
 app.listen(port, () => {
