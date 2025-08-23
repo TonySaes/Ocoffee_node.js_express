@@ -2,11 +2,13 @@ import express from "express";
 import session from "express-session";
 import "dotenv/config";
 
-import homeRouter from "./app/routes/home.routes.js";
-import shopRouter from "./app/routes/shop.routes.js";
+import adminCheck from "./app/modules/adminCheck.js";
+
+import adminRouter from "./app/routes/admin.routes.js";
 import coffeeRouter from "./app/routes/coffee.routes.js";
 import contactRouter from "./app/routes/contact.routes.js";
-import adminRouter from "./app/routes/admin.routes.js";
+import homeRouter from "./app/routes/home.routes.js";
+import shopRouter from "./app/routes/shop.routes.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -27,6 +29,7 @@ app.use(session({
       maxAge: 1000 * 60 * 60 * 2
     }
 }));
+await adminCheck();
 
 app.use((req, res, next) => {
     res.locals.session = req.session || {};

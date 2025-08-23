@@ -1,8 +1,9 @@
 import fs from "node:fs/promises";
-import tasteModel from "../models/taste.models.js";
-import countryModel from "../models/country.models.js";
-import coffeeModels from "../models/coffee.models.js";
+
 import belongModels from "../models/belong.models.js";
+import coffeeModels from "../models/coffee.models.js";
+import countryModel from "../models/country.models.js";
+import tasteModel from "../models/taste.models.js";
 import usersModels from "../models/users.models.js";
 
 export default {
@@ -135,7 +136,21 @@ export default {
         }
 
         try {
-            
+                const user = await usersModels.findUserByName(okUser);
+            if (!user || user.password !== okPass) {
+                const errorMessage = encodeURIComponent("Identifiants invalides.");
+                return res.redirect(`/admin/login?errorMessage=${errorMessage}`);
+            }
+            req.session.regenerate((error) => {
+                if (error) {
+                    const errorMessage = encodeURIComponent("Une erreur est survenue lors de la connexion.");
+                    return res.redirect(`/admin/login?errorMessage=${errorMessage}`);
+                }
+                req.session.user = { id: user.id, username: user.username, isAdmin: user.is_admin };
+                req.session.save();
+                const okMessage = encodeURIComponent("Connexion réussie.");
+                res.redirect(`/admin?okMessage=${okMessage}`);
+            });
             let country_id = await countryModel.getCountryIdByName(country);
             if (!country_id) {
                 country_id = await countryModel.createCountry(country);
@@ -190,25 +205,37 @@ export default {
         }
     },
     
-    handleLogin(req, res) {
+    async handleLogin(req, res) {
         const { username, password } = req.body;
-        const okUser = username === process.env.ADMIN_USER;
-        const okPass = password === process.env.ADMIN_PASSWORD;
+
+        const okUser = String(username).trim();
+        const okPass = String(password);
+
         if (!okUser || !okPass) {
             const errorMessage = encodeURIComponent("Identifiants invalides.");
             return res.redirect(`/admin/login?errorMessage=${errorMessage}`);
         }
-        req.session.regenerate((error) => {
-            if (error) {
-                const errorMessage = encodeURIComponent("Une erreur est survenue lors de la connexion.");
+        try {
+            const user = await usersModels.findUserByName(okUser);
+            if (!user || user.password !== okPass) {
+                const errorMessage = encodeURIComponent("Identifiants invalides.");
                 return res.redirect(`/admin/login?errorMessage=${errorMessage}`);
-            }
-            req.session.isAdmin = true;
-            req.session.username = username;
-            req.session.save();
-            const okMessage = encodeURIComponent("Connexion réussie.");
-            res.redirect(`/admin?okMessage=${okMessage}`);
-        });
+            };
+            req.session.regenerate((error) => {
+                if (error) {
+                    const errorMessage = encodeURIComponent("Une erreur est survenue lors de la connexion.");
+                    return res.redirect(`/admin/login?errorMessage=${errorMessage}`);
+                }
+                req.session.user = { id: user.id, username: user.username, isAdmin: user.is_admin };
+                req.session.isAdmin = user.is_admin;
+                req.session.save();
+                const okMessage = encodeURIComponent("Connexion réussie.");
+                res.redirect(`/admin?okMessage=${okMessage}`);
+            });
+        } catch (error) {
+            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la connexion.");
+            return res.redirect(`/admin/login?errorMessage=${errorMessage}`);
+        }
     },
 
     handleLogout(req, res) {
@@ -226,7 +253,7 @@ export default {
                 const errorMessage = encodeURIComponent("Aucun utilisateur trouvé.");
                 return res.redirect(`/admin?errorMessage=${errorMessage}`);
             }
-            res.render("manageUsers", { title: "Gestion des utilisateurs", users, cssFile: "admin.css", okMessage });
+            res.render("manageUsers", { title: "Gestion des utilisateurs", users, cssFile: "users.css", okMessage });
         } catch (error) {
             const errorMessage = encodeURIComponent("Une erreur est survenue lors de la récupération des utilisateurs : " + (error.detail || error.message));
             return res.redirect(`/admin?errorMessage=${errorMessage}`);

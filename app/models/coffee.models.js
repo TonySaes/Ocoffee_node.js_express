@@ -1,6 +1,20 @@
 import client from "./db.js";
 
 export default {
+    async createCoffee(coffeeData) {
+        try {
+            const res = await client.query(
+                `INSERT INTO coffee (name, description, price, reference, country_id) 
+                 VALUES ($1, $2, $3, $4, $5) RETURNING coffee_id`,
+                [coffeeData.name, coffeeData.description, coffeeData.price, coffeeData.reference, coffeeData.country_id]
+            );
+            return res.rows[0].coffee_id;
+        } catch (error) {
+            console.error("Erreur lors de la création du café :", error.message);
+            throw error;
+        }
+    }, 
+
     async getCoffees() {
         try {
             const res = await client.query("SELECT coffee.coffee_id, coffee.reference, coffee.name, coffee.price, country.name as country_name FROM coffee JOIN country ON country.country_id = coffee.country_id ORDER BY coffee.name");
@@ -20,20 +34,6 @@ export default {
             throw error;
         }
     },
-
-    async createCoffee(coffeeData) {
-        try {
-            const res = await client.query(
-                `INSERT INTO coffee (name, description, price, reference, country_id) 
-                 VALUES ($1, $2, $3, $4, $5) RETURNING coffee_id`,
-                [coffeeData.name, coffeeData.description, coffeeData.price, coffeeData.reference, coffeeData.country_id]
-            );
-            return res.rows[0].coffee_id;
-        } catch (error) {
-            console.error("Erreur lors de la création du café :", error.message);
-            throw error;
-        }
-    }, 
 
     async updateCoffee(id, coffeeData) {
         try {
