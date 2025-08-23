@@ -1,17 +1,17 @@
 <%- include("partials/header.ejs") %>
-<div>
-    <h1>Contact</h1>
-    <p>Pour toute question, n'hésitez pas à nous contacter.</p>
-    <% if (okMessage) { %>
-        <p class="okMessage"><%= okMessage %></p>
-    <% } %>
-    <% if (errorMessage) { %>
-        <p class="errorMessage"><%= errorMessage %></p>
-    <% } %>
-</div>
-
 <main>
-  <form action="/contact" method="POST" class="contact__form">
+  <div>
+      <h1>Contact</h1>
+      <p>Pour toute question, n'hésitez pas à nous contacter.</p>
+      <% if (okMessage) { %>
+          <p class="okMessage"><%= okMessage %></p>
+      <% } %>
+      <% if (errorMessage) { %>
+          <p class="errorMessage"><%= errorMessage %></p>
+      <% } %>
+  </div>
+
+  <form action="/contact" method="POST">
     <div>
       <label for="name">Nom :</label>
       <input type="text" id="name" name="name" required>

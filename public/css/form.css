@@ -1,13 +1,14 @@
-.add__form {
+form {
   text-align: center;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 1.5rem;
   padding: 1rem;
 }
 
-.add__form--coffee_type {
+.coffee_type {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -15,29 +16,46 @@
   border: none;
 }
 
-.add__form div {
+form div {
   width: 100%;
-  max-width: 600px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.5rem;
 }
 
 
-.add__form label, 
-.add__form legend {
+form label, 
+form legend {
   font-weight: bold;
 }
 
-.add__form--coffee_type label {
+.coffee_type label {
   font-weight: normal;
 }
 
-.add__form textarea {
+form textarea {
   resize: none;
 }
-.add__form input,
-.add__form textarea {
+form input,
+form textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 50%;
+  background-color: var(--color-dark);
+  color: var(--color-cream);
+  cursor: pointer;
+  text-align: center;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: var(--color-cream);
+  outline: none;
+}
+
+form select {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -45,11 +63,7 @@
   background-color: var(--color-dark);
   color: var(--color-cream);
   cursor: pointer;
+  text-align: center;
 }
 
-.add__form input:focus,
-.add__form textarea:focus {
-  border-color: var(--color-cream);
-  outline: none;
-}
 

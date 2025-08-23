@@ -1,9 +1,11 @@
 <%- include("partials/header.ejs") %>
 <main>
-    <h1>Gestion des utilisateurs</h1>
-    <% if (okMessage) { %>
-        <div class="okMessage"><%= okMessage %></div>
-    <% } %>
+    <div>
+        <h1>Gestion des utilisateurs</h1>
+        <% if (okMessage) { %>
+            <div class="okMessage"><%= okMessage %></div>
+        <% } %>
+    </div>
     <table>
         <thead>
             <tr>
@@ -28,8 +30,8 @@
     </table>
     <nav class="admin-nav">
         <ul>
-            <li><a class="button" href="/admin">Retour à l'administration</a></li>
             <li><a class="button" href="/admin/createUser" >Créer un utilisateur</a></li>
+            <li><a class="button" href="/admin">Retour à l'administration</a></li>
         </ul>
     </nav>
 </main>

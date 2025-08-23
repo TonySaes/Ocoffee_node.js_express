@@ -6,7 +6,7 @@
             <p class="errorMessage"><%= errorMessage %></p>
         <% } %>
     </div>
-    <form action="" method="POST" class="editCoffee__form">
+    <form action="" method="POST">
         <div>
             <label for="name">Nom du café :</label>
             <input type="text" id="name" name="name" value="<%= coffee.name %>" required>
@@ -23,7 +23,7 @@
             <label for="description">Description :</label>
             <textarea id="description" name="description" required><%= coffee.description %></textarea>
         </div>
-        <fieldset class="editCoffee__form--coffee_type">
+        <fieldset class="coffee_type">
             <legend>Caractéristiques</legend>
             <% for (const type of coffeeTypes) { %>
                 <div>
@@ -34,5 +34,6 @@
         </fieldset>
         <button class="button" type="submit">Modifier</button>
     </form>
+    <li><a class="button" href="/admin">Retour à l'administration</a></li>
 </main>
 <%- include ("partials/footer.ejs") %>

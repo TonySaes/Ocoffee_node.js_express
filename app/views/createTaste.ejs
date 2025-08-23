@@ -1,15 +1,18 @@
 <%- include ("partials/header.ejs") %>
-
-<h1>Créer un nouveau goût de café</h1>
-<% if (errorMessage) { %>
-    <p class="errorMessage"><%= errorMessage %></p>
-<% } %>
-<form action="" method="POST" class="addTaste__form">
+<main>
     <div>
-        <label for="type">Nom :</label>
-        <input type="text" id="type" name="type" required>
+        <h1>Créer un nouveau goût de café</h1>
+        <% if (errorMessage) { %>
+            <p class="errorMessage"><%= errorMessage %></p>
+        <% } %>
     </div>
-    <button class="button" type="submit">Créer</button>
-</form>
-
+    <form action="" method="POST">
+        <div>
+            <label for="type">Nom :</label>
+            <input type="text" id="type" name="type" required>
+        </div>
+        <button class="button" type="submit">Créer</button>
+    </form>
+    <a class="button" href="/admin">Retour à l'administration</a>
+</main>
 <%- include ("partials/footer.ejs") %>

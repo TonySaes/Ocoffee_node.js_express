@@ -1,10 +1,12 @@
 import sendEmail from "../modules/emailjsForContact.js";
+
 export default {
   index: (req, res) => {
     const { okMessage } = req.query;
     const { errorMessage } = req.query;
-    res.render("contact", {title: "Contact", cssFile: "contact.css", okMessage, errorMessage});
+    res.render("contact", {title: "Contact", cssFile: "form.css", okMessage, errorMessage});
   },
+
   sendMessage: async (req, res) => {
     const { name, email, message } = req.body;
     if (!name || !email || !message) {

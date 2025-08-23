@@ -3,7 +3,8 @@ const listElt = document.getElementById('articles-list');
 
 if (btnElt && listElt) {
     btnElt.addEventListener('click', () => {
-        listElt.classList.remove('only-display-4-articles');
+        const isReduced = listElt.classList.toggle('only-display-4-articles');
+        btnElt.textContent = isReduced ? 'Voir tout les produits' : 'Réduire';
     });
 }
 

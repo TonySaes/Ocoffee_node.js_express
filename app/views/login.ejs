@@ -1,10 +1,11 @@
 <%- include('partials/header.ejs') %>
 <main>
-  <h1>Connexion</h1>
-
-  <% if (errorMessage) { %>
-    <p class="errorMessage"><%= errorMessage %></p>
-  <% } %>
+  <div>
+    <h1>Connexion</h1>
+    <% if (errorMessage) { %>
+      <p class="errorMessage"><%= errorMessage %></p>
+    <% } %>
+  </div>
 
   <form action="" method="POST" class="login__form">
     <label>Identifiant</label>

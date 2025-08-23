@@ -82,6 +82,14 @@ header button {
   cursor: pointer;
 }
 
+.admin {
+  color: var(--color-yellow);
+}
+
+.logout {
+  color: var(--color-dark);
+}
+
 @media screen and (min-width: 1280px) {
   /* Hide "menu button" on large screen by default */
   header button {

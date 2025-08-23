@@ -48,8 +48,8 @@
         <li><a href="/contact">Contact</a></li>
         <li><a href="/admin/login">Connexion</a></li>
         <% if (session.isAdmin) { %>
-          <li><a href="/admin">Admin</a></li>
-          <li><a href="/admin/logout">Se déconnecter</a></li>
+          <li><a href="/admin" class="admin">Admin</a></li>
+          <li><a href="/admin/logout" class="logout">Se déconnecter</a></li>
         <% } %>
       </ul>
     </nav>

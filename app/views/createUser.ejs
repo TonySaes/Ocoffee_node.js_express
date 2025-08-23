@@ -1,10 +1,12 @@
 <%- include("partials/header.ejs") %>
 <main>
-    <% if (errorMessage) { %>
-        <div class="error"><%= errorMessage %></div>
-    <% } %>
-    <h1>Créer un utilisateur</h1>
-    <form action="" method="POST" class="createUser__form">
+    <div>
+        <h1>Créer un utilisateur</h1>
+        <% if (errorMessage) { %>
+            <div class="error"><%= errorMessage %></div>
+        <% } %>
+    </div>
+    <form action="" method="POST">
         <div>
             <label for="username">Nom d'utilisateur :</label>
             <input type="text" id="username" name="username" required>

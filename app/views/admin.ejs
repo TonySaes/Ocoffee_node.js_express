@@ -1,21 +1,21 @@
 <%- include("partials/header.ejs") %>
-
-<h1>Administration</h1>
-<% if (okMessage) { %>
-    <p class="okMessage"><%= okMessage %></p>
-<% } %>
-<% if (errorMessage) { %>
-    <p class="errorMessage"><%= errorMessage %></p>
-<% } %>
-<nav class="admin-nav">
-    <ul>
-        <li><a class="button" href="/admin/createCoffee">Créer un café</a></li>
-        <li><a class="button" href="/admin/createTaste">Créer un type de café</a></li>
-        <li><a class="button" href="/admin/logout">Se déconnecter</a></li>
-        <li><a class="button" href="/admin/manageUsers">Gérer les utilisateurs</a></li>
-    </ul>
-</nav>
-
-<a class="button" href="/">Retour à l'accueil</a>
-
+<main class="admin-main">
+    <div>
+        <h1>Administration</h1>
+        <% if (okMessage) { %>
+            <p class="okMessage"><%= okMessage %></p>
+        <% } %>
+        <% if (errorMessage) { %>
+            <p class="errorMessage"><%= errorMessage %></p>
+        <% } %>
+    </div>
+    <nav class="admin-nav">
+        <ul>
+            <li><a class="button" href="/admin/createCoffee">Créer un café</a></li>
+            <li><a class="button" href="/admin/createTaste">Créer un type de café</a></li>
+            <li><a class="button" href="/admin/manageUsers">Gérer les utilisateurs</a></li>
+            <li><a class="button" href="/admin/logout">Se déconnecter</a></li>
+        </ul>
+    </nav>
+</main>
 <%- include("partials/footer.ejs") %>
