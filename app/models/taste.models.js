@@ -13,7 +13,7 @@ export default {
 
     async getAllTypes() {
         try {
-            const res = await client.query("SELECT type, taste_id FROM taste");
+            const res = await client.query("SELECT type, taste_id FROM taste ORDER BY type");
             return res.rows;
         } catch (error) {
             console.error("Erreur lors de la récupération des types de café :", error);
@@ -36,4 +36,14 @@ export default {
             throw error;
         }
     },
+
+    async getTasteByName(name) {
+        try {
+            const res = await client.query(`SELECT type, taste_id FROM taste WHERE type ILIKE $1`, [name]);
+            return res.rows[0];
+        } catch (error) {
+            console.error("Erreur lors de la récupération du type de café par nom :", error);
+            throw error;
+        }
+    }
 };

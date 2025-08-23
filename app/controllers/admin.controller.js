@@ -5,6 +5,7 @@ import coffeeModels from "../models/coffee.models.js";
 import countryModel from "../models/country.models.js";
 import tasteModel from "../models/taste.models.js";
 import usersModels from "../models/users.models.js";
+import tasteModels from "../models/taste.models.js";
 
 export default {
     async index(req, res, next) {
@@ -16,33 +17,33 @@ export default {
     async createCoffee(req, res) {
         const file = req.file;
         
+        const { name, description, price, reference, country, coffee_type } = req.body;
+        
+        // 1) Création des variables adaptées aux contraintes de la BDD
+        const parsedPrice = Number(String(price).trim().replace(",", "."));
+        let tasteIds = [];
+        if (Array.isArray(coffee_type)) {
+            tasteIds = coffee_type.map(Number);
+        } else if (coffee_type != null) { 
+            tasteIds = [Number(coffee_type)];
+        }
+        // 2) Validations basiques
+        const errors = [];
+        if (!String(name || "").trim()) errors.push("Le nom est requis.");
+        if (!String(description || "").trim()) errors.push("La description est requise.");
+        if (!Number.isFinite(parsedPrice)) errors.push("Le prix doit être un nombre.");
+        if (!String(reference || "").trim()) errors.push("La référence est requise.");
+        if (!String(country || "").trim()) errors.push("Le pays est requis.");
+        if (!tasteIds.length) errors.push("Sélectionnez au moins une caractéristique.");
+        
+        if (errors.length) {
+            if (file?.path) { try { await fs.unlink(file.path); } catch {} }
+            const errorMessage = encodeURIComponent(errors.join(" "));
+            return res.redirect(`/admin?errorMessage=${errorMessage}`);
+        };
+        
         try {
-            const { name, description, price, reference, country, coffee_type } = req.body;
-            
-            // 1) Création des variables adaptées aux contraintes de la BDD
-            const parsedPrice = Number(String(price).trim().replace(",", "."));
-            let tasteIds = [];
-            if (Array.isArray(coffee_type)) {
-                tasteIds = coffee_type.map(Number);
-            } else if (coffee_type != null) { // couvre undefined et null
-                tasteIds = [Number(coffee_type)];
-            };
-            // 2) Validations basiques
-            const errors = [];
-            if (!String(name || "").trim()) errors.push("Le nom est requis.");
-            if (!String(description || "").trim()) errors.push("La description est requise.");
-            if (!Number.isFinite(parsedPrice)) errors.push("Le prix doit être un nombre.");
-            if (!String(reference || "").trim()) errors.push("La référence est requise.");
-            if (!String(country || "").trim()) errors.push("Le pays est requis.");
-            if (!tasteIds.length) errors.push("Sélectionnez au moins une caractéristique.");
-
-            if (errors.length) {
-                if (file?.path) { try { await fs.unlink(file.path); } catch {} }
-                const errorMessage = encodeURIComponent(errors.join(" "));
-                return res.redirect(`/admin?errorMessage=${errorMessage}`);
-            };
-            
-            // 3) Récupération / création du pays
+        // 3) Récupération / création du pays
             let countryId = await countryModel.getCountryIdByName(country);
             if (!countryId) {
                 countryId = await countryModel.createCountry(country);
@@ -83,7 +84,7 @@ export default {
             return res.redirect(`/admin/createUser?errorMessage=${errorMessage}`);
         }
         try {
-            const userId = await usersModels.createUser({ username, password, is_admin });
+            await usersModels.createUser({ username, password, is_admin });
             const okMessage = encodeURIComponent(`Utilisateur "${username}" créé avec succès !`);
             res.redirect(`/admin/manageUsers?okMessage=${okMessage}`);
         } catch (error) {
@@ -93,7 +94,7 @@ export default {
     }, 
     
     async createTaste(req, res) {
-        const typeInput = String(req.body.type ?? "").trim();
+        const typeInput = String(req.body.type).trim();
         const errors = [];
         if (!String(typeInput || "").trim()) errors.push("Le nom est requis.");
 
@@ -103,7 +104,12 @@ export default {
         }
 
         try {
-            await tasteModel.createTaste(typeInput);
+            const typeToCheck = await tasteModels.getTasteByName(typeInput);
+            if (typeToCheck) {
+                const errorMessage = encodeURIComponent(`Le type de café "${typeInput}" existe déjà.`);
+                return res.redirect(`/admin/createTaste?errorMessage=${errorMessage}`);
+            }
+            await tasteModels.createTaste(typeInput);
             const okMessage = encodeURIComponent(`Type de café "${typeInput}" créé avec succès !`);
             res.redirect(`/admin?okMessage=${okMessage}`);
         } catch (error) {
@@ -111,10 +117,32 @@ export default {
             res.redirect(`/admin/createTaste?errorMessage=${errorMessage}`);
         }
     },
-
+    async deleteCoffee(req, res) {
+        const id = Number(req.params.id);
+        try {
+            const coffee = await coffeeModels.getCoffeeById(id);
+            const reference = coffee.reference;
+            if (!coffee) {
+                const errorMessage = encodeURIComponent("Café non trouvé.");
+                return res.redirect(`/coffees?errorMessage=${errorMessage}`);
+            }
+            const imgPath = path.resolve(process.cwd(), "public", "images", "coffees", `${reference}.jpg`);
+            try {
+                await fs.unlink(imgPath);
+            } catch {}
+            await belongModels.deleteBelongsByCoffeeId(id);
+            await coffeeModels.deleteCoffee(id);
+            const okMessage = encodeURIComponent(`Café supprimé avec succès !`);
+            res.redirect(`/coffees?okMessage=${okMessage}`);
+        } catch (error) {
+            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la suppression du café : " + (error.detail || error.message));
+            res.redirect(`/coffees?errorMessage=${errorMessage}`);
+        }
+    },
     async editCoffee(req, res) {
         const id = Number(req.params.id);
         const { name, price, country, description, coffee_type } = req.body;
+
         const parsedPrice = Number(String(price).trim().replace(",", "."));
         let newTasteIds = [];
         if (Array.isArray(coffee_type)) {
@@ -129,28 +157,12 @@ export default {
         if (!Number.isFinite(parsedPrice)) errors.push("Le prix doit être un nombre.");
         if (!String(country || "").trim()) errors.push("Le pays est requis.");
         if (!newTasteIds.length) errors.push("Sélectionnez au moins une caractéristique.");
-
         if (errors.length) {
             const errorMessage = encodeURIComponent(errors.join(" "));
             return res.redirect(`/admin?errorMessage=${errorMessage}`);
         }
 
         try {
-                const user = await usersModels.findUserByName(okUser);
-            if (!user || user.password !== okPass) {
-                const errorMessage = encodeURIComponent("Identifiants invalides.");
-                return res.redirect(`/admin/login?errorMessage=${errorMessage}`);
-            }
-            req.session.regenerate((error) => {
-                if (error) {
-                    const errorMessage = encodeURIComponent("Une erreur est survenue lors de la connexion.");
-                    return res.redirect(`/admin/login?errorMessage=${errorMessage}`);
-                }
-                req.session.user = { id: user.id, username: user.username, isAdmin: user.is_admin };
-                req.session.save();
-                const okMessage = encodeURIComponent("Connexion réussie.");
-                res.redirect(`/admin?okMessage=${okMessage}`);
-            });
             let country_id = await countryModel.getCountryIdByName(country);
             if (!country_id) {
                 country_id = await countryModel.createCountry(country);
@@ -161,8 +173,8 @@ export default {
                 country_id: Number(country_id),
                 description: String(description)
             };
-            
-            const result = await coffeeModels.updateCoffee(id, coffeeData);
+
+            const addedCoffee = await coffeeModels.updateCoffee(id, coffeeData);
 
             const oldTasteIds = await belongModels.getTasteIdsByCoffeeId(id);
 
@@ -172,10 +184,10 @@ export default {
             const toRemove = oldTasteIds.filter(id => !newSet.has(id));
 
             for (const id of toAdd) {
-                await belongModels.createBelong(result.coffee_id, id);
+                await belongModels.createBelong(addedCoffee.coffee_id, id);
             }
             for (const id of toRemove) {
-                await belongModels.deleteBelong(result.coffee_id, id);
+                await belongModels.deleteBelong(addedCoffee.coffee_id, id);
             }
             const okMessage = encodeURIComponent(`Café "${name}" modifié avec succès !`);
             res.redirect(`/coffees?okMessage=${okMessage}`);

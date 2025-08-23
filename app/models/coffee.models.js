@@ -15,6 +15,16 @@ export default {
         }
     }, 
 
+    async deleteCoffee(id) {
+        try {
+            const res = await client.query("DELETE FROM coffee WHERE coffee_id = $1 RETURNING *", [id]);
+            return res.rows[0];
+        } catch (error) {
+            console.error("Erreur lors de la suppression du café :", error.message);
+            throw error;
+        }
+    },
+
     async getCoffees() {
         try {
             const res = await client.query("SELECT coffee.coffee_id, coffee.reference, coffee.name, coffee.price, country.name as country_name FROM coffee JOIN country ON country.country_id = coffee.country_id ORDER BY coffee.name");

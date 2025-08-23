@@ -25,7 +25,7 @@ export default {
 
     async findUserByName(username) {
         try {
-            const res = await client.query("SELECT id, username, password, is_admin FROM users WHERE username = $1 LIMIT 1",
+            const res = await client.query("SELECT id, username, password, is_admin FROM users WHERE username ILIKE $1 LIMIT 1",
                 [String(username).trim()]);
             return res.rows[0] || null;
         } catch (error) {

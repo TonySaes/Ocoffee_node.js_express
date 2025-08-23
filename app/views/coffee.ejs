@@ -23,6 +23,9 @@
               </div>
               <% if (session.isAdmin) { %>
                 <a class="button" href="/admin/editCoffee/<%= coffee.coffee_id %>">Modifier</a>
+                <form action="/admin/coffees/<%= coffee.coffee_id %>/delete" method="POST" style="display:inline" onsubmit="return confirm('Supprimer définitivement « <%= coffee.name %> » ?');">
+                  <button class="button" type="submit">Supprimer</button>
+                </form>
               <% } %>
               <a class="button-outline" href="/coffees">Retour au catalogue</a>
             </div>

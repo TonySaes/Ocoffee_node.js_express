@@ -1,6 +1,6 @@
 import usersModels from "../models/users.models.js";
 
-export default async function adminCheck () {
+export default async function createAdminUser () {
     const currentUser = process.env.ADMIN_USER;
     const currentPwd = process.env.ADMIN_PASSWORD;
 

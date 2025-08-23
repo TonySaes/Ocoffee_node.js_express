@@ -2,7 +2,7 @@ import express from "express";
 import session from "express-session";
 import "dotenv/config";
 
-import adminCheck from "./app/modules/adminCheck.js";
+import adminFirstCheck from "./app/modules/createAdminForFirstLogin.js";
 
 import adminRouter from "./app/routes/admin.routes.js";
 import coffeeRouter from "./app/routes/coffee.routes.js";
@@ -29,7 +29,7 @@ app.use(session({
       maxAge: 1000 * 60 * 60 * 2
     }
 }));
-await adminCheck();
+await adminFirstCheck();
 
 app.use((req, res, next) => {
     res.locals.session = req.session || {};

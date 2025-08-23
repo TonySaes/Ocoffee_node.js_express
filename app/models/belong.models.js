@@ -21,6 +21,16 @@ export default {
         }
     },
 
+    async deleteBelongsByCoffeeId(coffeeId) {
+        try {
+            const res = await client.query("DELETE FROM belong WHERE coffee_id = $1 RETURNING *", [coffeeId]);
+            return res.rows;
+        } catch (error) {
+            console.error("Erreur lors de la suppression des associations belong :", error.message);
+            throw error;
+        }
+    },
+
     async getTasteIdsByCoffeeId(coffeeId) {
         try {
             const res = await client.query("SELECT taste_id FROM belong WHERE coffee_id = $1", [coffeeId]);

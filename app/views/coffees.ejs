@@ -5,6 +5,9 @@
     <% if (okMessage) { %>
         <p class="okMessage"><%= okMessage %></p>
     <% } %>
+    <% if (errorMessage) { %>
+        <p class="errorMessage"><%= errorMessage %></p>
+    <% } %>
 
     <div class="articles only-display-4-articles" id="articles-list">
       <% for (const coffee of coffees) { %>
