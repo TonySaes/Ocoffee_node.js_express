@@ -5,6 +5,9 @@
         <% if (okMessage) { %>
             <div class="okMessage"><%= okMessage %></div>
         <% } %>
+        <% if (errorMessage) { %>
+            <div class="errorMessage"><%= errorMessage %></div>
+        <% } %>
     </div>
     <table>
         <thead>
@@ -21,7 +24,9 @@
                     <td><%= user.is_admin ? "Oui" : "Non" %></td>
                     <td class="actions">
                         <a href="/admin/editUser/<%= user.id %>" class="button">Modifier</a>
-                        <a href="/admin/deleteUser/<%= user.id %>" class="button">Supprimer</a>
+                        <form action="/admin/users/<%= user.id %>/delete" method="POST" style="display:inline" onsubmit="return confirm('Supprimer définitivement « <%= user.username %> » ?');">
+                            <button class="button" type="submit">Supprimer</button>
+                       </form>
                     </td>
                 </tr>
             <% }) %>

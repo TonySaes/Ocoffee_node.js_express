@@ -12,6 +12,15 @@ export default {
         }
     },
 
+    async deleteUser(id) {
+        try {
+            await client.query("DELETE FROM users WHERE id = $1", [id]);
+        } catch (error) {
+            console.error("Erreur lors de la suppression de l'utilisateur :", error);
+            throw error;
+        }
+    },
+
     async findUserById(id) {
         try {
         const res = await client.query("SELECT id, username, password, is_admin FROM users WHERE id = $1 LIMIT 1", 

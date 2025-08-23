@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import path from "node:path";
 
 import belongModels from "../models/belong.models.js";
 import coffeeModels from "../models/coffee.models.js";
@@ -139,6 +140,24 @@ export default {
             res.redirect(`/coffees?errorMessage=${errorMessage}`);
         }
     },
+
+    async deleteUser(req, res) {
+        const id = Number(req.params.id);
+        try {
+            const user = await usersModels.findUserById(id);
+            if (!user) {
+                const errorMessage = encodeURIComponent("Utilisateur non trouvé.");
+                return res.redirect(`/admin/manageUsers?errorMessage=${errorMessage}`);
+            }
+            await usersModels.deleteUser(id);
+            const okMessage = encodeURIComponent(`Utilisateur "${user.username}" supprimé avec succès !`);
+            res.redirect(`/admin/manageUsers?okMessage=${okMessage}`);
+        } catch (error) {
+            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la suppression de l'utilisateur : " + (error.detail || error.message));
+            res.redirect(`/admin/manageUsers?errorMessage=${errorMessage}`);
+        }
+    },
+
     async editCoffee(req, res) {
         const id = Number(req.params.id);
         const { name, price, country, description, coffee_type } = req.body;
@@ -260,12 +279,13 @@ export default {
     async listUsers(req, res) {
         try {
             const { okMessage } = req.query;
+            const { errorMessage } = req.query;
             const users = await usersModels.getAllUsers();
             if (!users) {
                 const errorMessage = encodeURIComponent("Aucun utilisateur trouvé.");
                 return res.redirect(`/admin?errorMessage=${errorMessage}`);
             }
-            res.render("manageUsers", { title: "Gestion des utilisateurs", users, cssFile: "users.css", okMessage });
+            res.render("manageUsers", { title: "Gestion des utilisateurs", users, cssFile: "users.css", okMessage, errorMessage});
         } catch (error) {
             const errorMessage = encodeURIComponent("Une erreur est survenue lors de la récupération des utilisateurs : " + (error.detail || error.message));
             return res.redirect(`/admin?errorMessage=${errorMessage}`);

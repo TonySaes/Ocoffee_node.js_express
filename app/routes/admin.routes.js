@@ -21,6 +21,7 @@ router.get("/editCoffee/:id", adminController.showEditCoffee);
 router.post("/editCoffee/:id", adminController.editCoffee);
 router.get("/editUser/:id", adminController.showEditUser);
 router.post("/editUser/:id", adminController.editUser);
+router.post("/users/:id/delete", adminChecker, adminController.deleteUser);
 router.get("/login", adminController.showLogin);
 router.post("/login", adminController.handleLogin);
 router.get("/logout", adminController.handleLogout);
