@@ -10,7 +10,7 @@ export default async function createAdminUser () {
         return error;
     }
 
-    const exist = await usersModels.findUserByName(currentUser);
+    const exist = await usersModels.getUserByName(currentUser);
     if (!exist) {
         await usersModels.createUser({ username: currentUser, password: currentPwd, is_admin: true });
         console.log(`Utilisateur admin créé avec le nom d'utilisateur : ${currentUser}`);

@@ -2,16 +2,22 @@ import client from "./db.js";
 
 export default {
     async createCountry(name) {
-        const sql = `INSERT INTO country (name) VALUES ($1) RETURNING country_id`;
-        const val = [String(name || "").trim()];
-        const { rows } = await client.query(sql, val);
-        return rows[0].country_id; 
+        try {
+            const res = await client.query(`INSERT INTO country (name) VALUES ($1) RETURNING country_id`, [name]);
+            return res.rows[0].country_id;
+        } catch (error) {
+            console.error("Error creating country:", error);
+            throw error;
+        }
     },
 
     async getCountryIdByName(name) {
-        const sql = `SELECT country_id FROM country WHERE name ILIKE $1 LIMIT 1`;
-        const val = [String(name || "").trim()];
-        const { rows } = await client.query(sql, val);
-        return rows.length ? rows[0].country_id : null; 
+        try {
+            const res = await client.query(`SELECT country_id FROM country WHERE name ILIKE $1 LIMIT 1`, [name]);
+            return res.rows.length ? res.rows[0].country_id : null;
+        } catch (error) {
+            console.error("Error getting country ID by name:", error);
+            throw error;
+        }
     },
 }

@@ -21,7 +21,7 @@ export default {
         }
     },
 
-    async findUserById(id) {
+    async getUserById(id) {
         try {
         const res = await client.query("SELECT id, username, password, is_admin FROM users WHERE id = $1 LIMIT 1", 
             [id]);
@@ -32,10 +32,10 @@ export default {
         }
     },
 
-    async findUserByName(username) {
+    async getUserByName(username) {
         try {
             const res = await client.query("SELECT id, username, password, is_admin FROM users WHERE username ILIKE $1 LIMIT 1",
-                [String(username).trim()]);
+                [username]);
             return res.rows[0] || null;
         } catch (error) {
             console.error("Erreur dans la recherche de l'utilisateur par nom :", error);
@@ -56,7 +56,7 @@ export default {
     async updateUser(id, { username, password, is_admin }) {
         try {
             await client.query("UPDATE users SET username = $1, password = $2, is_admin = $3 WHERE id = $4",
-                [String(username).trim(), password, is_admin, id]);
+                [username, password, is_admin, id]);
         } catch (error) {
             console.error("Erreur dans la mise à jour de l'utilisateur :", error);
             throw error;
