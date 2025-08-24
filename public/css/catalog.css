@@ -49,3 +49,44 @@
 #catalog button {
   margin: 2rem auto 0 auto;
 }
+
+#filter-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+  gap: 1rem;
+}
+
+#filter-form input,
+#filter-form select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  background-color: var(--color-dark);
+  color: var(--color-cream);
+  cursor: pointer;
+  text-align: center;
+}
+#filter-form input:focus,
+#filter-form select:focus {
+  border-color: var(--color-cream);
+  outline: none;
+}
+
+#filter-form label {
+  font-weight: bold;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 0.25rem;
+}
+
+#filter-form .button {
+  margin-top: 0;
+}

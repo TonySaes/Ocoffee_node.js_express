@@ -244,7 +244,7 @@ export default {
         }
     },
     
-    async handleLogin(req, res) {
+    async handleLogin(req, res, next) {
         const { username, password } = req.body;
 
         const okUser = String(username).trim();
@@ -273,8 +273,7 @@ export default {
                 res.redirect(`/admin?okMessage=${okMessage}`);
             });
         } catch (error) {
-            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la connexion.");
-            return res.redirect(`/admin/login?errorMessage=${errorMessage}`);
+            next(error);
         }
     },
 
@@ -285,7 +284,7 @@ export default {
         });
     },
 
-    async listUsers(req, res) {
+    async listUsers(req, res, next) {
         const { okMessage } = req.query;
         const { errorMessage } = req.query;
 
@@ -298,8 +297,7 @@ export default {
 
             res.render("manageUsers", { title: "Gestion des utilisateurs", users, cssFile: "users.css", okMessage, errorMessage});
         } catch (error) {
-            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la récupération des utilisateurs : " + (error.detail || error.message));
-            return res.redirect(`/admin?errorMessage=${errorMessage}`);
+            next(error);
         }
     },
     
@@ -328,7 +326,7 @@ export default {
         res.render("createUser", { title: "Créer un utilisateur", cssFile: "form.css", errorMessage });
     },
 
-    async showEditCoffee(req, res) {
+    async showEditCoffee(req, res, next) {
         const id = req.params.id;
         const { errorMessage } = req.query;
 
@@ -343,12 +341,11 @@ export default {
 
             res.render("editCoffee", { title: `Éditer ${coffee.name}`, cssFile: "form.css", coffee, coffeeTypes, selectedTypes, errorMessage });
         } catch (error) {
-            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la récupération du café : " + (error.detail || error.message));
-            return res.redirect(`/admin/manageCoffees?errorMessage=${errorMessage}`);
+            next(error);
         }
-    }, 
-    
-    async showEditUser(req, res) {
+    },
+
+    async showEditUser(req, res, next) {
         const id = req.params.id;
         const { errorMessage } = req.query;
 
@@ -361,8 +358,7 @@ export default {
 
             res.render("editUser", { title: `Éditer ${user.username}`, cssFile: "form.css", user, errorMessage });
         } catch (error) {
-            const errorMessage = encodeURIComponent("Une erreur est survenue lors de la récupération de l'utilisateur : " + (error.detail || error.message));
-            return res.redirect(`/admin/manageUsers?errorMessage=${errorMessage}`);
+            next(error);
         }
     },
 
