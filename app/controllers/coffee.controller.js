@@ -26,7 +26,7 @@ export default {
             const coffeeTypes = await tasteModels.getAllTypes();
             let coffees = await coffeeModels.getCoffees();
             if (!coffees || !countries) {
-                return res.status(404).render("404", { message: "Erreur dans la récupération des données", title: "Erreur 404" });
+                return res.status(500).render("404", { message: "Erreur dans la récupération des données", title: "Erreur 500" });
             }
             if (country) {
                 coffees = coffees.filter(coffee => coffee.country_name === country);

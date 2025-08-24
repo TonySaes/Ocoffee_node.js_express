@@ -39,6 +39,9 @@
         <a class="button" href="/coffees">Réinitialiser</a>
       </div>
     </form>
+    <% if (coffees.length === 0) { %>
+      <p class="errorMessage">Aucun café ne correspond à votre recherche.</p>
+    <% } %>
     <div class="articles only-display-4-articles" id="articles-list">
       <% for (const coffee of coffees) { %>
       <article>
@@ -62,7 +65,5 @@
   </section>
   <div><a class="button" href="/">Retour à l'accueil</a></div>
   <script src="/js/displayAllCoffee.js"></script>
-  <script src="/js/autoFilter.js"></script>
-
 </main>
 <%- include("partials/footer.ejs") %>

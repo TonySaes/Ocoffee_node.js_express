@@ -130,7 +130,7 @@ export default {
                 return res.redirect(`/coffees?errorMessage=${errorMessage}`);
             }
 
-            const imgPath = path.resolve(process.cwd(), "public", "images", "coffees", `${reference}.jpg`);
+            const imgPath = path.resolve(process.cwd(), "public", "images", "coffees", `${reference}.png` || `${reference}.jpg` || `${reference}.jpeg` || `${reference}.webp`);
             try {
                 await fs.unlink(imgPath);
             } catch {}
