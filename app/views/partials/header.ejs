@@ -46,7 +46,9 @@
         <li><a href="/coffees">Catalogue</a></li>
         <li><a href="/shop">Qui sommes-nous?</a></li>
         <li><a href="/contact">Contact</a></li>
+        <% if (!session.user) { %>
         <li><a href="/admin/login">Connexion</a></li>
+        <% } %>
         <% if (session.isAdmin) { %>
           <li><a href="/admin" class="admin">Admin</a></li>
           <li><a href="/admin/logout" class="logout">Se déconnecter</a></li>
