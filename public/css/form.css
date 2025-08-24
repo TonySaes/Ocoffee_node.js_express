@@ -49,6 +49,13 @@ form textarea {
   text-align: center;
 }
 
+@media screen and (max-width: 720px) {
+  form input,
+  form textarea {
+    width: 100%;
+  }
+}
+
 form input:focus,
 form textarea:focus {
   border-color: var(--color-cream);
