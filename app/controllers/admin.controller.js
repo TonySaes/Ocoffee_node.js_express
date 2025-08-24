@@ -131,13 +131,16 @@ export default {
             }
 
             const imgPath = path.resolve(process.cwd(), "public", "images", "coffees", `${reference}.png` || `${reference}.jpg` || `${reference}.jpeg` || `${reference}.webp`);
-            try {
-                await fs.unlink(imgPath);
-            } catch {}
+            try {await fs.unlink(imgPath);} catch {}
 
             await belongModels.deleteBelongsByCoffeeId(id);
-            await coffeeModels.deleteCoffee(id);
-            const okMessage = encodeURIComponent(`Café supprimé avec succès !`);
+            const deletedcoffee = await coffeeModels.deleteCoffee(id);
+            const allCoffees = await coffeeModels.getCoffees();
+            const countriesId = allCoffees.map(coffee => coffee.country_id);
+            if (!countriesId.includes(deletedcoffee.country_id)) {
+                await countryModels.deleteCountry(deletedcoffee.country_id);
+            }
+            const okMessage = encodeURIComponent(`Café "${coffee.name}" supprimé avec succès !`);
             res.redirect(`/coffees?okMessage=${okMessage}`);
         } catch (error) {
             const errorMessage = encodeURIComponent("Une erreur est survenue lors de la suppression du café : " + (error.detail || error.message));
