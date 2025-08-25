@@ -27,7 +27,7 @@ export default {
 
     async getCoffees() {
         try {
-            const res = await client.query("SELECT coffee.coffee_id, coffee.reference, coffee.name, coffee.price, country.name as country_name, STRING_AGG(taste.type, ', ' ORDER BY taste.type) AS coffee_type FROM coffee JOIN country ON country.country_id = coffee.country_id JOIN belong ON belong.coffee_id = coffee.coffee_id JOIN taste ON taste.taste_id = belong.taste_id GROUP BY coffee.coffee_id, coffee.reference, coffee.name, coffee.price, country.name ORDER BY coffee.name");
+            const res = await client.query("SELECT coffee.coffee_id, coffee.reference, coffee.name, coffee.price, country.name as country_name, STRING_AGG(taste.type, ', ' ORDER BY taste.type) AS coffee_type, coffee.available FROM coffee JOIN country ON country.country_id = coffee.country_id JOIN belong ON belong.coffee_id = coffee.coffee_id JOIN taste ON taste.taste_id = belong.taste_id GROUP BY coffee.coffee_id, coffee.reference, coffee.name, coffee.price, country.name, coffee.available ORDER BY coffee.name");
             return res.rows;
         } catch (error) {
             console.error("Erreur lors de la récupération des cafés :", error.message);

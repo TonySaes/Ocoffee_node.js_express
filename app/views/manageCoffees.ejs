@@ -1,0 +1,78 @@
+<%- include("partials/header.ejs") %>
+<main>
+    <h1>Gérer les cafés</h1>
+    <form action="/admin/manageCoffees" method="GET" id="filter-form">
+      <legend>Filtrer les cafés</legend>
+      <div>
+        <label for="country">Pays</label>
+        <select name="country">
+          <option value="">---</option>
+          <% for (const country of countries) { %>
+            <option value="<%= country.name %>"><%= country.name %></option>
+          <% } %>
+        </select>
+      </div>
+      <div>
+        <label for="type">Type de café</label>
+        <select name="type">
+          <option value="">---</option>
+          <% for (const type of coffeeTypes) { %>
+            <option value="<%= type.type %>"><%= type.type %></option>
+          <% } %>
+        </select>
+      </div>
+      <div>
+        <label for="name">Nom du café</label>
+        <input type="text" name="name" placeholder="Nom du café" />
+      </div>
+      <div>
+        <label for="reference">Référence</label>
+        <input type="text" name="reference" placeholder="Référence" />
+      </div>
+      <div class="button-container">
+        <button class="button" type="submit">Filtrer</button>
+        <a class="button" href="/admin/manageCoffees">Réinitialiser</a>
+      </div>
+    </form>
+    <% if (coffees.length === 0) { %>
+      <p class="errorMessage">Aucun café ne correspond à votre recherche.</p>
+    <% } %>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom du café</th>
+                <th>Référence</th>
+                <th>Origine</th>
+                <th>Type</th>
+                <th>Prix</th>
+                <th>Disponibilité</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% coffees.forEach(coffee => { %>
+                <tr>
+                    <td><%= coffee.name %></td>
+                    <td><%= coffee.reference %></td>
+                    <td><%= coffee.country_name %></td>
+                    <td><%= coffee.coffee_type %></td>
+                    <td><%= coffee.price %> €/kg</td>
+                    <td><%= coffee.available ? "Disponible" : "Indisponible" %></td>
+                    <td class="actions">
+                        <a href="/admin/editCoffee/<%= coffee.coffee_id %>" class="button">Modifier</a>
+                        <form action="/admin/coffees/<%= coffee.coffee_id %>/delete" method="POST" style="display:inline" onsubmit="return confirm('Supprimer définitivement « <%= coffee.name %> » ?');">
+                            <button class="button" type="submit">Supprimer</button>
+                       </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <nav class="admin-nav">
+        <ul>
+            <li><a class="button" href="/admin/createCoffee" >Créer un café</a></li>
+            <li><a class="button" href="/admin">Retour à l'administration</a></li>
+        </ul>
+    </nav>
+</main>
+<%- include("partials/footer.ejs") %>

@@ -7,8 +7,10 @@ import countryModels from "../models/country.models.js";
 import tasteModels from "../models/taste.models.js";
 import usersModels from "../models/users.models.js";
 
+import searchFilters from "../modules/searchFilters.js";
+
 export default {
-    async index(req, res, next) {
+    async index(req, res) {
         const { okMessage } = req.query;
         const { errorMessage } = req.query;
         res.render("admin", { title: "Admin", cssFile: "admin.css", okMessage, errorMessage });
@@ -287,6 +289,23 @@ export default {
         });
     },
 
+    async listCoffees(req, res, next) {
+        let { country, name, type, reference } = req.query;
+        try {
+            const countries = await countryModels.getAllCountries();
+            const coffeeTypes = await tasteModels.getAllTypes();
+            let coffees = await coffeeModels.getCoffees();
+            if (!coffees) {
+                const errorMessage = encodeURIComponent("Aucun café trouvé.");
+                return res.redirect(`/admin?errorMessage=${errorMessage}`);
+            }
+            coffees = searchFilters(coffees, { country, name, type, reference });
+            res.render("manageCoffees", { title: "Gestion des cafés", coffees, cssFile: "table.css", countries, coffeeTypes });
+        } catch (error) {
+            next(error);
+        }
+    },
+
     async listUsers(req, res, next) {
         const { okMessage } = req.query;
         const { errorMessage } = req.query;
@@ -298,7 +317,7 @@ export default {
                 return res.redirect(`/admin?errorMessage=${errorMessage}`);
             }
 
-            res.render("manageUsers", { title: "Gestion des utilisateurs", users, cssFile: "users.css", okMessage, errorMessage});
+            res.render("manageUsers", { title: "Gestion des utilisateurs", users, cssFile: "table.css", okMessage, errorMessage});
         } catch (error) {
             next(error);
         }

@@ -25,6 +25,7 @@ router.post("/users/:id/delete", adminChecker, adminController.deleteUser);
 router.get("/login", adminController.showLogin);
 router.post("/login", adminController.handleLogin);
 router.get("/logout", adminController.handleLogout);
-router.get("/manageUsers", adminController.listUsers);
+router.get("/manageUsers", adminChecker, adminController.listUsers);
+router.get("/manageCoffees", adminChecker, adminController.listCoffees);
 
 export default router;

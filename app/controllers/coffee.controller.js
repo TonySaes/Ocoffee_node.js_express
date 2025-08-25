@@ -2,6 +2,8 @@ import coffeeModels from "../models/coffee.models.js";
 import countryModels from "../models/country.models.js";
 import tasteModels from "../models/taste.models.js";
 
+import searchFilters from "../modules/searchFilters.js";
+
 export default {
     detail: async (req, res, next) => {
         try {
@@ -28,15 +30,7 @@ export default {
             if (!coffees || !countries) {
                 return res.status(500).render("404", { message: "Erreur dans la récupération des données", title: "Erreur 500" });
             }
-            if (country) {
-                coffees = coffees.filter(coffee => coffee.country_name === country);
-            }
-            if (name) {
-                coffees = coffees.filter(coffee => coffee.name.toLowerCase().includes(name.toLowerCase()));
-            }
-            if (type) {
-                coffees = coffees.filter(coffee => coffee.coffee_type.includes(type));
-            }
+            coffees = searchFilters(coffees, { country, name, type });
             res.render("coffees", { coffees, title: "Liste des cafés", cssFile: "catalog.css", okMessage, errorMessage, countries, coffeeTypes });
         } catch (error) {
             next(error);
