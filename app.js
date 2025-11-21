@@ -11,14 +11,15 @@ import homeRouter from "./app/routes/home.routes.js";
 import shopRouter from "./app/routes/shop.routes.js";
 
 const app = express();
-const port = process.env.PORT;
 
 app.set("view engine", "ejs");
 app.set("views", "./app/views");
 app.use(express.static("public"));
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-app.use(session({
+app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  session({
     name: "sessionId",
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -28,13 +29,18 @@ app.use(session({
       sameSite: "lax",
       maxAge: 1000 * 60 * 60 * 2
     }
-}));
-await adminFirstCheck();
+  })
+);
+
+if (process.env.NODE_ENV !== "test") {
+  await adminFirstCheck();
+}
 
 app.use((req, res, next) => {
-    res.locals.session = req.session || {};
-    next();
+  res.locals.session = req.session || {};
+  next();
 });
+
 app.use("/", homeRouter);
 app.use("/shop", shopRouter);
 app.use("/coffees", coffeeRouter);
@@ -42,14 +48,17 @@ app.use("/contact", contactRouter);
 app.use("/admin", adminRouter);
 
 app.use((req, res) => {
-    console.error(`404 - Page non trouvée : ${req.originalUrl}`);
-    res.status(404).render("404", { message: "Page non trouvée", title: "Erreur 404", cssFile: "home.css" });
-});
-app.use((error, req, res, next) => {
-    console.error(`500 - Erreur interne : ${error.message}`);
-    res.status(500).render("404", { message: error.message || "Erreur interne", title: "Erreur 500", cssFile: "home.css" });
+  console.error(`404 - Page non trouvée : ${req.originalUrl}`);
+  res
+    .status(404)
+    .render("404", { message: "Page non trouvée", title: "Erreur 404", cssFile: "home.css" });
 });
 
-app.listen(port, () => {
-console.log(`Running on http://localhost:${port}`);
+app.use((error, req, res, next) => {
+  console.error(`500 - Erreur interne : ${error.message}`);
+  res
+    .status(500)
+    .render("404", { message: error.message || "Erreur interne", title: "Erreur 500", cssFile: "home.css" });
 });
+
+export default app;
