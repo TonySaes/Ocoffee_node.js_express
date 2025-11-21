@@ -109,14 +109,22 @@ app/
 | POST | /login | Connexion utilisateur (création de session) | Public |
 | POST | /logout | Destruction de session | Auth |
 
+### Rendu EJS
+
+| Méthode | Route | Description | Accès |
+|---|---|---|---|
+| GET | /coffees | Liste des produits | Public |
+| GET | /coffees/:id | Détail produit | Public |
+| POST | /contact | Envoi du formulaire de contact (EMAILJS) | Public |
+
 ### Produits (Back-Office)
 | Méthode | Route | Description | Accès |
 |---|---|---|---|
-| GET | /admin/products | Liste des produits | Admin |
-| GET | /admin/products/:id | Détail produit | Admin |
-| POST | /admin/products | Création produit | Admin |
-| PATCH | /admin/products/:id | Modification produit | Admin |
-| DELETE | /admin/products/:id | Suppression produit | Admin |
+| GET | /admin/manageCoffees | Liste des produits | Admin |
+| GET | /admin/coffees/:id | Détail produit | Admin |
+| POST | /admin/createCoffee | Création produit | Admin |
+| PATCH | /admin/editCoffee/:id | Modification produit | Admin |
+| DELETE | /admin/coffees/:id/delete | Suppression produit | Admin |
 
 ---
 
