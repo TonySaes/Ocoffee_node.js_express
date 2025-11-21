@@ -12,7 +12,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles",
     "dev": "node --watch server.js"
   },
   "repository": {
@@ -38,6 +38,7 @@
     "pg": "^8.16.3"
   },
   "devDependencies": {
-    "jest": "^30.2.0"
+    "jest": "^30.2.0",
+    "supertest": "^7.1.4"
   }
 }
