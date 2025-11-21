@@ -4,11 +4,15 @@
   "description": "## Information du projet",
   "main": "index.js",
   "type": "module",
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
+  },
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "dev": "node --watch server.js"
   },
   "repository": {

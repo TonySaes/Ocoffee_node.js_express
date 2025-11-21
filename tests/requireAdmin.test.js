@@ -1,4 +1,5 @@
-import requireAdmin from "../app/middlewares/requireAdmin.js";
+import requireAdmin from "../app/middlewares/adminChecker.js";
+import { jest } from "@jest/globals";
 
 function mockRes() {
   return {

@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 });
 
 // Filtre : accepter seulement des images
-function fileFilter(req, file, cb) {
+export function fileFilter(req, file, cb) {
   if (/^image\/(png|jpeg|jpg|webp|gif)$/.test(file.mimetype)) cb(null, true);
   else cb(new Error("Format d'image non supporté"), false);
 }
