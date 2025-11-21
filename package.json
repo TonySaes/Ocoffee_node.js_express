@@ -24,8 +24,10 @@
   "homepage": "https://github.com/O-clock-Cambridge/SB04-projet-ocoffee-TonySaes#readme",
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@emailjs/nodejs": "^5.0.2",
     "dotenv": "^17.2.1",
     "ejs": "^3.1.10",
+    "emailjs": "^4.0.3",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
     "multer": "^2.0.2",

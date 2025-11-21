@@ -1,4 +1,10 @@
-import sendEmail from "../modules/emailjsForContact.js";
+import MailService from "../modules/MailService.js";
+
+const mailService = new MailService(
+  process.env.EMAILJS_SERVICE_ID,
+  process.env.EMAILJS_TEMPLATE_ID,
+  process.env.EMAILJS_PUBLIC_KEY
+);
 
 export default {
   index: (req, res) => {
@@ -15,12 +21,13 @@ export default {
     }
     
     try {
-        await sendEmail(name, email, message);
-        const okMessage = encodeURIComponent(`Merci ${name}, votre message a bien été envoyé ! Vous serez contacté par email à l'adresse ${email}.`);
-        res.redirect(`/contact?okMessage=${okMessage}`);
+      const result = await mailService.sendContactMessage(req.body);
+      const okMessage = encodeURIComponent(`Merci ${name}, votre message a bien été envoyé ! Vous serez contacté par email à l'adresse ${email}.`);
+
+      res.redirect(`/contact?okMessage=${okMessage}`);
     } catch (error) {
-    const errorMessage = encodeURIComponent("Une erreur est survenue lors de l'envoi de l'email.");
-    res.redirect(`/contact?errorMessage=${errorMessage}`);
+      const errorMessage = encodeURIComponent("Une erreur est survenue lors de l'envoi de votre message. Veuillez réessayer plus tard.");
+      res.redirect(`/contact?errorMessage=${errorMessage}`);
     }
-  }
-}
+  },
+};

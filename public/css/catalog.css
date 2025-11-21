@@ -15,8 +15,8 @@
   margin-top: 5rem;
 }
 
-/* Bonus : hide all articles after the 4th one until the user clicks the button to display more */
-#catalog .only-display-4-articles article:nth-child(n+5) {
+/* Bonus : hide all articles after the 5th one until the user clicks the button to display more */
+#catalog .only-display-5-articles article:nth-child(n+6) {
   display: none;
 }
 
