@@ -87,6 +87,39 @@ Architecture : **MVC** avec séparation des responsabilités (routes, contrôleu
 
 ---
 
+## Architecture du projet (MVC)
+
+```
+app/
+├── routes/        # Déclare les endpoints, applique les middlewares (requireAdmin)
+├── controllers/   # Logique métier (CRUD produits, envoi mail, login...)
+├── models/        # Modèles BDD (coffee, country...)
+├── views/         # Templates EJS (vitrine + back-office)
+├── modules/       # Logique réutilisable : searchFilter, Multer, MailService
+└── middlewares/   # Vérifications transverses (auth)
+```
+
+---
+
+## Routes principales
+
+### Authentification
+| Méthode | Route | Description | Accès |
+|---|---|---|---|
+| POST | /login | Connexion utilisateur (création de session) | Public |
+| POST | /logout | Destruction de session | Auth |
+
+### Produits (Back-Office)
+| Méthode | Route | Description | Accès |
+|---|---|---|---|
+| GET | /admin/products | Liste des produits | Admin |
+| GET | /admin/products/:id | Détail produit | Admin |
+| POST | /admin/products | Création produit | Admin |
+| PATCH | /admin/products/:id | Modification produit | Admin |
+| DELETE | /admin/products/:id | Suppression produit | Admin |
+
+---
+
 ## 🎯 Objectifs pédagogiques 
 
 ### Hard skills

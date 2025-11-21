@@ -2,7 +2,7 @@ import express from "express";
 
 import adminController from "../controllers/admin.controller.js";
 
-import adminChecker from "../modules/adminChecker.js"
+import adminChecker from "../middlewares/adminChecker.js"
 import upload from "../modules/multerForAddCoffee.js";
 
 
