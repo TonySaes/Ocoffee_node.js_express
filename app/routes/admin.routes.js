@@ -9,7 +9,10 @@ import upload from "../modules/multerForAddCoffee.js";
 
 const router = express.Router();
 
-router.get("/", adminController.index);
+router.get("/", adminChecker, adminController.index);
+router.get("/login", adminController.showLogin);
+router.post("/login", adminController.handleLogin);
+router.get("/logout", adminController.handleLogout);
 router.post("/coffees/:id/delete", adminChecker, adminController.deleteCoffee);
 router.get("/createCoffee", adminChecker, adminController.showCreateCoffee);
 router.post("/createCoffee", adminChecker, upload.single("uploaded_file"), adminController.createCoffee);
@@ -22,9 +25,6 @@ router.post("/editCoffee/:id", adminChecker, adminController.editCoffee);
 router.get("/editUser/:id", adminChecker, adminController.showEditUser);
 router.post("/editUser/:id", adminChecker, adminController.editUser);
 router.post("/users/:id/delete", adminChecker, adminController.deleteUser);
-router.get("/login", adminController.showLogin);
-router.post("/login", adminController.handleLogin);
-router.get("/logout", adminController.handleLogout);
 router.get("/manageUsers", adminChecker, adminController.listUsers);
 router.get("/manageCoffees", adminChecker, adminController.listCoffees);
 

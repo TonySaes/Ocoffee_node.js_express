@@ -150,4 +150,4 @@ app/
 
 ---
 
-Projet réalisé dans le cadre de ma formation DWWM avce l'école O'Clock
+Projet réalisé dans le cadre de ma formation DWWM avec l'école O'Clock

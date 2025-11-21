@@ -1,0 +1,84 @@
+{
+    "info": {
+        "name": "O'Coffee - Postman Collection",
+        "_postman_id": "ocoffee-collection-1234",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Login",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{ \"username\": \"valide\", \"password\": \"valide\" }"
+                },
+                "url": {
+                    "raw": "http://localhost:3000/admin/login",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3000",
+                    "path": [
+                        "login"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Logout",
+            "request": {
+                "method": "GET",
+                "url": "http://localhost:3000/admin/logout"
+            }
+        },
+        {
+            "name": "Liste caf\u00e9s admin",
+            "request": {
+                "method": "GET",
+                "url": "http://localhost:3000/admin/manageCoffees"
+            }
+        },
+        {
+            "name": "Cr\u00e9er caf\u00e9",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{ \"name\": \"Test Coffee\", \"country\": \"Brésil\", \"price\": 10.00 }"
+                },
+                "url": "http://localhost:3000/admin/createCoffee"
+            }
+        },
+        {
+            "name": "Contact form",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{ \"name\": \"Tony\", \"email\": \"tony@mail.fr\", \"message\": \"Bonjour\" }"
+                },
+                "url": "http://localhost:3000/contact"
+            }
+        }
+    ]
+}
